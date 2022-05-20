@@ -59,7 +59,7 @@
 
 /* line between columns */
 .resultsCalendar .calendar_default_cell_inner {
-  border-left: 1px solid grey;
+  border-left: 1px solid grey !important;
 }
 
 

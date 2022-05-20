@@ -291,69 +291,69 @@ p.timezoneMessage:nth-of-type(1){
 
 /* calendar section of form */
 .navigator_default_main {
-  border-left: 1px solid #fff;
-  border-right: 1px solid #fff;
-  border-bottom: 1px solid #fff;
-  font-family: 'Lexend', sans-serif;
-  font-size: 12px;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
-  width: 445px;
+  border-left: 1px solid #fff !important;
+  border-right: 1px solid #fff !important;
+  border-bottom: 1px solid #fff !important;
+  font-family: 'Lexend', sans-serif !important;
+  font-size: 12px !important;
+  border-radius: 15px !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
+  margin-top: 10px !important;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+  width: 445px !important;
 }
 
 .navigator_default_main *,
 .navigator_default_main *:before,
 .navigator_default_main *:after {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 .navigator_default_line {
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #fff !important;
 }
 
 /* month header */
 .navigator_default_title,
 .navigator_default_titleleft,
 .navigator_default_titleright {
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #fff;
-  color: #383c40;
-  text-align: center;
-  background-color: #FFFFFF;
-  font-size: 1.2rem;
-  font-weight: 400;
+  border-top: 1px solid #fff !important;
+  border-bottom: 1px solid #fff !important;
+  color: #383c40 !important;
+  text-align: center !important;
+  background-color: rgb(255, 255, 255) !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
 }
 
 
 
 /* day headers */
 .navigator_default_dayheader {
-  color: #383c40;
-  background: #ffffff;
-  padding: 0px;
-  text-align: center;
+  color: #383c40 !important;
+  background: #ffffff !important;
+  padding: 0px !important;
+  text-align: center !important;
 }
 
 
 /* day cells */
 .navigator_default_cell {
-  color: #383c40;
-  background: #ffffff;
-  text-align: center;
-  font-weight: 500;
+  color: #383c40 !important;
+  background: #ffffff !important;
+  text-align: center !important;
+  font-weight: 500 !important;
 }
 
 .navigator_default_cell_text {
-  padding: 0px;
+  padding: 0px !important;
 }
 
 
 .navigator_default_todaybox {
-  border: 1px solid lightgray;
-  border-radius: 10px;
+  border: 1px solid lightgray !important;
+  border-radius: 10px !important;
 }
 
 /* the week that is selected */
