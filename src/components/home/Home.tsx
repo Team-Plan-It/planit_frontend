@@ -161,7 +161,8 @@ const Home:React.FC = () => {
   }
   // function that gets ranodm number for meeting
   // Might change this to be more on the backend
-  const getRndInteger = (min = 1000, max = 9999) => {
+  const getRndInteger = (min = 10000, max = 99999) => {
+
     return Math.floor(Math.random() * (max - min + 1) ) + min;
   }
   
@@ -173,11 +174,11 @@ const Home:React.FC = () => {
     // user needs to have selected a date and entered an email addresss in order to run the axios POST call
     if (chosenDay && !noEmails){
       // generate meeting number
-      let rndNum = getRndInteger(1000,9999);
+      let rndNum = getRndInteger(10000,99999);
       let rndNumString = rndNum.toString();
       data.meetingNumber = rndNumString;
       setMeetingNumID(rndNumString);
-      
+
       // capitalize event name
       const name = data.eventName;
       const words = name.split(" ");
