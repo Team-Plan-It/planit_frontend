@@ -1,0 +1,623 @@
+/* Home styles */
+.home{
+  display: flex;
+  filter: blur(4px);
+}
+
+.background {
+  background-image: url("../../assets/calendar.png");
+  background-color: #ababab;
+  background-repeat: none;
+  background-position: left top;
+  background-size: cover;
+  overflow: hidden;
+  width: calc(100vw - 274px);
+  height: 100vh;
+}
+
+.bgIntro {
+  margin-left: 50px;
+  margin-top: 40px;
+}
+
+/* general modal styles */
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00000040;
+ 
+}
+
+
+.welcomeModal, .scheduleModal, 
+.successModal {
+  position: absolute;
+  top: 8%;
+  right: 10%;
+  bottom: 8%;
+  left: 10%;
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: auto;
+  border-radius: 20px;
+  outline: none;
+  padding: 30px 20px;
+}
+
+/* welcome modal styles */
+.welcomeModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* planit logo */
+.welcomeModal img {
+  padding-bottom: 20px;
+
+}
+
+.welcomeModal h1 {
+  font-size: 1.5rem;
+  margin-top: -13px;
+  text-align: center;
+}
+
+.welcomeModal h2 {
+  margin-top: -20px;
+  font-size: 2.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+
+.welcomeModal p{
+  font-size: 1.13rem;
+  max-width: 214px;
+}
+
+.welcomeModal ul {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  max-width: 1150px;
+}
+
+.welcomeModal li {
+  display: flex;
+  flex-direction: column;
+  margin: 0 25px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.welcomeModal .imageContainer {
+  height: 150px;
+}
+
+.welcomeModal .imageContainer svg{
+  width: 100%;
+}
+
+
+.welcomeModal span,
+.successModal span{
+  color: #1657F3;
+}
+
+/* get started button */
+.scheduleModalOpen {
+  margin-top: -20px;
+}
+
+
+/* scheduling modal - Meeting details styles */
+.scheduleModal,
+.successMessages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scheduleModal {
+  justify-content: space-evenly;
+  padding: 1% 4%;
+}
+
+.scheduleModalContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 5%;
+}
+
+.scheduleModal h1 {
+  font-size: 1.8rem;
+  margin-top: 2%;
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+.scheduleModal .text{
+  color: #1657F3;
+}
+
+
+.homeInput {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  max-width: 1300px;
+}
+
+.homeInput form{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+
+}
+
+
+/* details section of form */
+.formEventDetails{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-right: 3%;
+ 
+}
+
+.formEventDetails .bold{
+  font-weight: 600;
+}
+
+.homeInput label{
+  padding: 5px 0;
+  margin-top: 30px;
+}
+
+.homeInput label:nth-of-type(3){
+  margin-bottom: 30px;
+}
+
+.formEventDetails>label:nth-child(1) {
+  margin-top: 0;
+}
+
+.homeInput select,
+.homeInput input {
+  width: 345px;
+  height: 48px;
+  background: #FFFFFF;
+  border: 1px solid #C8C8C8;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.formEventDetails input.success:focus,
+.react-multi-email.focused{
+  border: 2px solid #1657F3;
+  outline: none;
+}
+
+
+/* error messages styling */
+.homeInput .error {
+  border: 1px solid #ff0000;
+}
+
+.homeInput .errorMessage {
+  display: flex;
+  align-items: center;
+  color: #000000;
+  font-size: .8rem;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  height: 35px;
+  margin-top: 10px;
+  padding-right: 5px;
+  max-width: 350px;
+}
+
+
+.homeInput .errorMessage::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content: "   ⚠   ";
+  color: #ff0000;
+  font-weight: 600;
+  font-size: 1rem;
+  border-right: 10px solid white;
+  border-radius: 5px;
+  white-space: pre;
+  background-color: #FFDCE4;
+  width: 35px;
+  height: 35px;
+}
+
+.homeInput .errorMessage.maxEmails,
+.homeInput .errorMessage.maxEmails:before{
+  height: 70px;
+}
+
+.homeInput .errorMessage > div:nth-child(1) >p:nth-child(1) {
+  font-weight: 600;
+}
+
+/* email styles */
+.react-multi-email {
+  font-size: 1rem;
+  padding: 0 5px;
+  max-width: 345px;
+}
+
+.react-multi-email.empty>span[data-placeholder]{
+  color: #595959;
+}
+
+.react-multi-email>[data-tag] {
+  color: #FFFFFF;
+  background-color: #1657F3;
+  border-radius: 24px;
+  line-height: 20px;
+}
+
+.react-multi-email>div:nth-child(2)>span:nth-child(1) {
+  color: #FFFFFFFF;
+}
+
+
+/* time zone message */
+.timezoneMessage {
+  font-size: 1rem;
+  max-width: 345px;
+}
+
+p.timezoneMessage:nth-of-type(1){
+  margin-top: 1%;
+  font-size: 1.1rem;
+}
+
+
+/* calendar section of form */
+.navigator_default_main {
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-family: 'Lexend', sans-serif;
+  font-size: 12px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  width: 445px;
+}
+
+.navigator_default_main *,
+.navigator_default_main *:before,
+.navigator_default_main *:after {
+  box-sizing: border-box;
+}
+
+.navigator_default_line {
+  border-bottom: 1px solid #fff;
+}
+
+/* month header */
+.navigator_default_title,
+.navigator_default_titleleft,
+.navigator_default_titleright {
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  color: #383c40;
+  text-align: center;
+  background-color: #FFFFFF;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+
+
+/* day headers */
+.navigator_default_dayheader {
+  color: #383c40;
+  background: #ffffff;
+  padding: 0px;
+  text-align: center;
+}
+
+
+/* day cells */
+.navigator_default_cell {
+  color: #383c40;
+  background: #ffffff;
+  text-align: center;
+  font-weight: 500;
+}
+
+.navigator_default_cell_text {
+  padding: 0px;
+}
+
+
+.navigator_default_todaybox {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+}
+
+/* the week that is selected */
+.navigator_default_select .navigator_default_cell_box:not(.navigator_default_weekend){
+  background-color: #F5F5F5;
+
+}
+.navigator_default_select .navigator_default_cell_text{
+  color: #1657F3;
+  font-weight: 600;
+}
+
+.navigator_default_select.navigator_default_weekend .navigator_default_cell_text {
+  background-color: #1657F3;
+  color: #FFFFFF;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+div.navigator_default_select.navigator_default_weekend .navigator_default_cell_box{
+  opacity: 0.2;
+
+}
+
+/* disabled cells */
+.navigator-disabled-cell{
+  color: #575757;
+  font-weight: 100;
+}
+
+
+/* button to submit meeting info - generate link */
+.meetingSubmitBtn {
+  position: relative;
+  right: -325px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  width: 150px;
+}
+
+/* sucess modal styles */
+.successModal{
+  top: 15%;
+  bottom: 15%;
+}
+
+.successMessages {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  right: 5%;
+  bottom: 5%;
+  justify-content: space-evenly;
+}
+
+.successMessages h2 {
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.successMessages .imageContainer{
+  width: 520px;
+  height: 235px;
+}
+
+.successMessages .imageContainer img{
+  width: 100%;
+}
+
+
+/* media queries */
+@media only screen and (max-width: 1130px){
+  /* welcome modal */
+  .welcomeModal li {
+    min-width: 0px;
+    margin: 0;
+  }
+
+  .scheduleModalOpen {
+    margin-top: -5px;
+  }
+
+  /* schedule modal */
+  .scheduleModal{
+    left: 7%;
+    right: 7%;
+    top: 7%;
+    bottom: 7%;
+  }
+
+  .timezoneMessage:nth-of-type(1) {
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 986px) {
+  /* schedule modal */
+  .homeInput input,
+  .homeInput select{
+    width: 270px;
+  }
+
+  .homeInput .errorMessage.maxEmails,
+  .homeInput .errorMessage.maxEmails:before{
+    height: 100px;
+  }
+}
+
+@media only screen and (max-width: 890px){
+  /* schedule modal */
+  .scheduleModal{
+    top: 2%;
+    bottom: 2%;
+  }
+
+  /* change form to column  */
+  .homeInput form{
+    flex-direction: column;
+  }
+
+  .formEventCalendar{
+    margin-top: 6%;
+    align-self: center;
+  }
+
+  .homeInput input,
+  .homeInput select,
+  .react-multi-email,
+  .timezoneMessage {
+    min-width: 220px;
+    width: 100%;
+    max-width: none;
+  }
+
+  .react-multi-email{
+    width: 97%;
+  }
+
+  .homeInput .errorMessage{
+    max-width: 98%;
+  }
+
+  .meetingSubmitBtn{
+    margin-bottom: 5%;
+  }
+}
+
+
+
+@media only screen and (max-width: 750px) {
+  .welcomeModal p{
+    max-width: none;
+  }
+
+  /* schedule modal */
+  .scheduleModal{
+    padding: 1%;
+  }
+
+  .homeInput{
+    width: 95%;
+  }
+  
+  .meetingSubmitBtn{
+    left: 30%;
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 496px){
+  /* background of all modals */
+  .background {
+      height: 75vh;
+    }
+
+    /* welcome modal */
+  .welcomeModal{
+    top: 2%;
+    right: 3%;
+    bottom: 2%;
+    left: 3%;
+  }
+  .welcomeModal h2{
+    margin-top: 0px;
+  }
+
+  .welcomeModal ul{
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
+  }
+
+  .welcomeModal li {
+    height: 10%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .welcomeModal .imageContainer {
+    width: 0%;
+    height: 0%;
+  }
+
+  .scheduleModalOpen{
+    margin-top: 20px;
+  }
+
+  /* schedule modal */
+  .scheduleModal{
+    top: 1%;
+    right: 1%;
+    bottom: 1%;
+    left: 1%;
+  }
+  .formEventCalendar p{
+    padding-left: 10px;
+  }
+
+  /* success modal */
+  .successModal{
+    top: 2%;
+    right: 3%;
+    bottom: 2%;
+    left: 3%;
+    overflow: hidden;
+  }
+}
+
+  /* landscape */
+@media only screen and (max-height: 599px){
+  .background{
+    height: 75vh;
+  }
+  .welcomeModal,
+  .successModal{
+    top: 7%;
+    bottom: 7%;
+    padding: 10px;
+  }
+  .welcomeModal h2 {
+    margin-top: 0px;
+  }
+  
+  .welcomeModal ul {
+    height: 100px;
+  }
+
+  .welcomeModal li{
+    height: 75px;
+  }
+
+  .welcomeModal .imageContainer {
+    width: 0%;
+    height: 0%;
+  }
+
+  .scheduleModalOpen {
+    margin-top: 10px;
+  }
+
+  /* success modal */
+  .successMessages .imageContainer {
+    width: 370px;
+    height: 160px;
+  }
+
+}

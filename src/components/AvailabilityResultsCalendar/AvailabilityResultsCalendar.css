@@ -1,0 +1,185 @@
+/* make container slide in from right */
+.resultsCal{
+  animation-duration: 1.5s;
+  animation-name: slidein;
+}
+
+.resultsCalIntro{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 25px 20px 0 60px;
+}
+
+/* toggle weekends button */
+.toggleWeekends {
+  background-color: #D3D3D3;
+  color: #000000;
+  border: none;
+  width: 205px;
+}
+
+.toggleWeekends img {
+  width: 10%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.toggleWeekends:hover {
+  background-color: #D3D3D3;
+}
+/* right and left arrow icon from <a href="https://www.flaticon.com/free-icons/next"title="next icons">Next icons created by Roundicons - Flaticon</a> */
+
+
+/* calendar styling */
+.resultsCalendar.calendar_default_main {
+  /* need to override inline styling of library */
+  width: 99% !important;
+  padding-bottom: 20px;
+  border: 1px solid #E5E5E5;
+}
+
+.resultsCalendar .calendar_default_cell {
+  height: 10px;
+}
+
+.resultsCalendar .calendar_default_corner_inner {
+  border-right: none;
+  background-color: #E5E5E5;
+}
+
+.resultsCalendar .calendar_default_colheader_inner {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 5px;
+  border-right: none;
+  border-left: none;
+  background-color: #E5E5E5;
+}
+
+/* line between columns */
+.resultsCalendar .calendar_default_cell_inner {
+  border-left: 1px solid grey;
+}
+
+
+/* events styling  */
+.resultsCalendar .calendar_default_event_inner {
+  width: 20px;
+  padding: 6px 3px 0 3px;
+  font-weight: 600;
+  margin-left: 10%;
+  border-radius: 0;
+  margin-right: 10px;
+}
+
+/* background for each user */
+.resultsCalendar .calendar_default_event_inner {
+  background: #D3D3D3;
+  border-radius: 10px;
+}
+
+.resultsCalendar div.user1>div.calendar_default_event_inner {
+  /* ALTERNATE STYLING for events  - may use in future */
+  /* background: linear-gradient(0deg, #D3D3D3 0 70%, #ff3db1 30% 100%); */
+  background: #D3D3D3;
+  border: 2px solid #ff3db1;
+}
+
+.resultsCalendar div.user2>div.calendar_default_event_inner {
+  /* background: linear-gradient(0deg, #D3D3D3 0 70%, #ff6b00 30% 100%); */
+  background: #D3D3D3;
+  border: 2px solid #ff6b00;
+}
+
+.resultsCalendar div.user3>div.calendar_default_event_inner {
+  /* background: linear-gradient(0deg, #D3D3D3 0 70%, #ffe500 30% 100%); */
+  background: #D3D3D3;
+  border: 2px solid #ffe500;
+}
+
+.resultsCalendar div.user4>div.calendar_default_event_inner {
+  /* background: linear-gradient(0deg, #D3D3D3 0 70%, #49c491 30% 100%); */
+  background: #D3D3D3;
+  border: 2px solid #49c491;
+}
+
+.resultsCalendar div.user5>div.calendar_default_event_inner {
+  /* background: linear-gradient(0deg, #D3D3D3 0 70%, #4198f7 30% 100%); */
+  background: #D3D3D3;
+  border: 2px solid #4198f7;
+}
+
+.resultsCalendar div.user6>div.calendar_default_event_inner {
+  /* background: linear-gradient(0deg, #D3D3D3 0 70%, #b03ce7 30% 100%); */
+  background: #D3D3D3;
+  border: 2px solid #b03ce7;
+}
+
+/* positioning of each event by user */
+/* need to override inline styling of library */
+.resultsCalendar .user1{
+  left: 0% !important;
+  width: 30% !important;
+}
+
+.resultsCalendar .user2{
+  left: 16% !important;
+  width: 30% !important;
+}
+
+.resultsCalendar .user3{
+  left: 33% !important;
+  width: 30% !important;
+}
+
+.resultsCalendar .user4{
+  left: 50% !important;
+  width: 30% !important;
+}
+
+.resultsCalendar .user5{
+  left: 66% !important;
+  width: 30% !important;
+}
+
+.resultsCalendar .user6{
+  left: 82% !important;
+  width: 30% !important;
+}
+
+/* for overlap event - MAY ADD IN FUTURE */
+/* .resultsCalendar div.overlap>div.calendar_default_event_inner {
+  width: 100%;
+  padding: 0;
+  background: rgb(231, 148, 148);
+  border: 2px solid #1657F3;
+  border-radius: none;
+}
+.resultsCalendar div.overlap:nth-of-type(1) {
+  z-index: 4;
+  width: 100%;
+  left: 0;
+  border-radius: none;
+} */
+
+
+/* animations for toggle between availability and calendar view */
+@keyframes slidein{
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+/* add media query for laptop */
+/* 
+@media only screen and (max-width: 1280px){
+
+} */
+
+

@@ -1,0 +1,90 @@
+/* general styles */
+
+body {
+  font-size: 125%;
+  font-family: 'Lexend',
+  sans-serif;
+  font-weight: 300;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+  font-weight: 300;
+}
+
+.wrapper{
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 600;
+  font-size: .8em;
+  line-height: 24px;
+  text-align: center;
+  color: #FFFFFF;
+  background-color: #1657F3;
+  width: 175px;
+  border-radius: 8px;
+  padding: 8px 20px;
+  transition: 0.3s;
+}
+
+button:hover{
+  background-color: #0B43CC;
+}
+
+label, select, input, option {
+  font-family: "Lexend", sans-serif;
+  font-size: .8em;
+  line-height: 20px;
+  font-weight: 300;
+  padding: 5px;
+}
+
+input:focus,
+select:focus{
+  border: 2px solid #1657F3;
+}
+
+option {
+  font-size: 1em;
+}
+
+
+/* app styles */
+
+.app {
+  display: flex;
+}
+
+
+
+/* .logo {
+  position: absolute;
+  color: #FFFFFF;
+  width: 81px;
+  height: 24px;
+  left: 76px;
+  top: 57px;
+} */
+
+/* main {
+  width: calc(100vw - 274px);
+  margin-right: 20px;
+} */

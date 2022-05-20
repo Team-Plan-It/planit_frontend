@@ -1,0 +1,100 @@
+.sidebar {
+  position: relative;
+  width: 274px;
+  min-height: 100vh;
+  background-color: #1A181B;
+  color: #ffffff;
+  font-size: 1rem;
+  min-width: 274px;
+  z-index: 30;
+}
+  
+.sidebar svg {
+  padding-left: 35px;
+  padding-top: 30px;
+}
+
+.sidebar ul{
+  padding-left: 40px;
+  padding-top: 110px;
+}
+.sidebar li{
+  display: flex;
+  padding: 5px 0;
+}
+
+/* when user has a name and has completed availability */
+.circle.fill{
+  color: #000000;
+}
+
+.user1 .circle.fill{
+  background-color: #ff3db1;
+  border: 3px solid #ff3db1;
+}
+
+.user2 .circle.fill{
+  background-color: #ff6b00;
+  border: 3px solid #ff6b00;
+}
+
+.user3 .circle.fill{
+  background-color: #ffe500;
+  border: 3px solid #ffe500;
+}
+
+.user4 .circle.fill{
+  background-color: #49c491;
+  border: 3px solid #49c491;
+}
+
+.user5 .circle.fill{
+  background-color: #4198f7;
+  border: 3px solid #4198f7;
+}
+
+.user6 .circle.fill{
+  background-color: #b03ce7;
+  border: 3px solid #b03ce7;
+}
+
+/* when user has not completed availability */
+.user1 .circle.noFill {
+  border: 3px solid #ff3db1;
+}
+
+.user2 .circle.noFill {
+  border: 3px solid #ff6b00;
+}
+
+.user3 .circle.noFill {
+  border: 3px solid #ffe500;
+}
+
+.user4 .circle.noFill {
+  border: 3px solid #49c491;
+}
+
+.user5 .circle.noFill {
+  border: 3px solid #4198f7;
+}
+
+.user6 .circle.noFill {
+  border: 3px solid #b03ce7;
+}
+
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 15px;
+  font-weight: 500;
+}
+
+.users {
+  padding-top: 8px ;
+}

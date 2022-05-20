@@ -1,0 +1,55 @@
+/* 
+DayPilot Navigator Theme 
+https://themes.daypilot.org/navigator/theme/wstqft
+Theme Designer Version: 2021.09.25.67272
+*/
+.navigator_default_main { border-left: 1px solid #c0c0c0;border-right: 1px solid #c0c0c0;border-bottom: 1px solid #c0c0c0; font-family: 'Lexend', sans-serif; font-size: 12px; }
+.navigator_default_main *, .navigator_default_main *:before, .navigator_default_main *:after { box-sizing: border-box; }
+.navigatore_default_line { border-bottom: 1px solid #c0c0c0; }
+/* month header */ 
+.navigatore_default_title, .navigatore_default_titleleft, .navigatore_default_titleright { 
+	border-top: 1px solid #c0c0c0;
+	color: #383c40;
+	background: rgb(255, 255, 255);
+}
+.navigatore_default_title { text-align: center; }
+.navigatore_default_titleleft, .navigatore_default_titleright { text-align: center; }
+/* day headers */
+.navigatore_default_dayheader { 
+	color: #383c40;
+	background: #ffffff;
+	padding: 0px;
+	text-align: center;
+}
+/* day cells */
+.navigatore_default_cell { 
+	color: #383c40;
+	background: #ffffff;
+	text-align: center;
+}
+.navigatore_default_cell_text {
+	padding: 0px;
+}
+.navigatore_default_weeknumber { 
+	color: #383c40;
+	background: #ffffff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#fafafa));
+	background: -webkit-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: -moz-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: -ms-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: -o-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: linear-gradient(top, #ffffff 0%, #fafafa);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr="#ffffff", endColorStr="#fafafa");
+	text-align: center;
+	padding: 0px;
+}
+.navigatore_default_weekend { 
+	color: #383c40;
+	background: #ffffff;
+	text-align: center;
+	padding: 0px;
+}
+.navigatore_default_dayother { color: gray; }
+.navigatore_default_todaybox { border: 1px solid red; }
+.navigatore_default_busy { font-weight: bold; }
+.navigatore_default_select .planit_cell_box { background-color: #f5f5f5; opacity: 0.5; }

@@ -1,0 +1,71 @@
+.errorPage{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  height: 90vh;
+  padding: 4%;
+  overflow: hidden;
+}
+
+
+/* svg */
+.astronaut {
+  width: 100%;
+  max-width: 750px;
+  height: auto;
+}
+
+.errorPage .textContainer{
+  padding: 1%;
+}
+
+.errorPage p{
+  padding-bottom: 5px;
+}
+
+
+.error404Btn{
+  margin-bottom: 50px;
+}
+
+@media only screen and (max-height: 816px){
+  .errorPage {
+      height: 85vh;
+    }
+
+  .astronaut{
+    width: 65%;
+  }
+
+  .errorPage h1{
+    font-size: 2.2;
+  }
+
+  .errorPage p{
+    font-size: 1.3rem;
+  }
+}
+
+@media only screen and (max-height: 412px) and (max-width: 915px){
+  .errorPage {
+      /* padding: 1%; */
+      height: 94vh;
+      padding: 3% 0 0 0;
+    }
+  
+    .astronaut {
+      width: 35%;
+    }
+  
+    .errorPage h1 {
+      font-size: 2rem;
+    }
+  
+    .errorPage p {
+      font-size: 1rem;
+    }
+
+
+}

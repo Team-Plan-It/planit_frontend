@@ -1,0 +1,389 @@
+.overlapResults{
+  display: flex;
+  width: 100%;
+  /* min-width: 810px; */
+}
+
+.overlapInfo{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* header */
+.overlapInfoIntro {
+  display: flex;
+  flex-direction: column;
+  padding: 4% 6%;
+} 
+
+
+.overlapInfoIntro h1{
+  margin-bottom: 20px;
+  font-size: 2.25rem;
+}
+
+.overlapInfoIntro h2{
+  font-size: 1.5rem;
+}
+
+/* blue text */
+.overlapResults .text{
+  color: #1657F3;
+}
+.overlapResults .text.bold{
+  font-weight: 600;
+}
+
+/* button to navigate to home and add a new event */
+.overlapInfoIntro button{
+  align-self: flex-end;
+  min-width: 205px;
+  text-align: center;
+  margin-top: -50px;
+}
+
+/* banner with timezone */
+.banner{
+  text-align: center;
+  background-color: #1657F3;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 22px;
+  font-weight: 600;
+  padding: 6px;
+}
+
+/* buttons for availability times or calendar view */
+.toggleButtons{
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  background-color: #E5E5E5;
+}
+
+.toggleButtons button{
+  background-color: #E5E5E5;
+  color: #000000;
+  border: none;
+  border-radius: 0;
+  margin: 10px 35px;
+  font-size: 1.25rem;
+  font-weight: 400;
+  padding: 0 0 7px 0;
+  width: 140px;
+}
+
+.toggleButtons button:hover{
+  background-color: #E5E5E5;
+  color: #1657F3;
+}
+
+.toggleButtons .border{
+  border-bottom: 5px solid #1657F3;
+}
+
+/* container for overlap info */
+.overlapContainer{
+  overflow: hidden;
+  background-color: #E5E5E5;
+  display: flex;
+  flex: 1 1 auto;
+  /* min-height: 70%; */
+}
+/* make container slide in from left */
+.overlapInfoDetails{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #E5E5E5;
+  animation-duration: 1.5s;
+  animation-name: slideinright;
+  position: relative;
+  width: 100%;
+  /* left: 100px; */
+ 
+}
+
+/* header if not all have completed availability */
+.overlapInfoDetails h2{
+  align-self: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 30px;
+  color: #1657F3;
+  margin-bottom: 25px;
+}
+
+/* container ul for day items */
+.overlapInfoDetails > ul {
+  width: 70%;
+}
+
+/* each day container */
+.overlapInfoDetails li {
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+/* day of the week and date */
+.overlapInfoDetails .day {
+  font-size: 1rem;
+  text-align: left;
+  font-weight: 500;
+  padding: 30px 0 10px 40px;
+}
+.day .text{
+  font-size: 1.5rem;
+}
+
+.overlapInfoDetails .dayTimes{
+  width: 95%;
+  padding-bottom: 10px;
+}
+.dayTimes li{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-right: 20px;
+  border: none;
+  margin: 7px 0;
+  padding: 2px;
+}
+
+/* timeblocks of availability */
+.availDisplay{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  align-items: left;
+  padding: 10px 40px;
+}
+/* time */
+.timeP{
+  font-size: 1.13rem;
+  font-weight: 500;
+  line-height: 22px;
+  min-width: 165px;
+  padding: 5px 0;
+}
+
+/* text of length all are available */
+.overlapInfoDetails .length {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 18px;
+}
+.availDisplay .text{
+  font-weight: 600;
+}
+
+/* user display */
+.userNames{
+  display: flex;
+  justify-content: flex-end;
+  width: 30%;
+  padding: 3px 5px 3px 0;
+}
+
+.userNames li{
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #ffffff;
+  position: relative;
+  margin-left: -6px;
+}
+
+
+
+.userNames li.user1  {
+  background-color: #ff3db1;
+  z-index: 1;
+}
+
+.userNames li.user2  {
+  background-color: #ff6b00;
+  z-index: 2;
+}
+
+.userNames li.user3  {
+  background-color: #ffe500;
+  z-index: 3;
+}
+
+.userNames li.user4  {
+  background-color: #49c491;
+  z-index: 4;
+}
+
+.userNames li.user5  {
+  background-color: #4198f7;
+  z-index: 5;
+}
+
+.userNames li.user6  {
+  background-color: #b03ce7;
+  z-index: 6;
+}
+
+/* num of users */
+.userNames .userLength{
+  color: #383C4080;
+  padding-left: 15px;
+  font-weight: 500;
+}
+
+
+/* message when no availability */
+.overlapInfoDetails .noAvail{
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 40px 20px;
+}
+
+
+/* calendar component container */
+.calendarComponent{
+  overflow: hidden;
+}
+
+@keyframes slideinright {
+  from {
+    right: 600px;
+    /* width: 300%; */
+  }
+  to {
+   right: 0;
+    width: 100%;
+  }
+}
+
+/* media queries */
+@media only screen and (max-width: 1025px){
+  .overlapInfoIntro{
+    height: 180px;
+    padding-top: 10px;
+  }
+
+  .overlapInfoIntro button {
+    align-self: flex-end;
+    width: 200px;
+    text-align: center;
+    /* margin-top: -30px;
+    margin-bottom: 10px; */
+    margin: -30px 30px 10px 10px;
+  }
+}
+
+@media only screen and (max-width: 960px){
+  /* change available times display to be columns */
+  .availableTimes li{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 30px;
+  }
+
+  .overlapInfoDetails .day{
+    padding-left: 0;
+  }
+
+  .overlapInfoDetails .dayTimes{
+    width: 100%;
+  }
+
+  .dayTimes > li{
+    flex-direction: column;
+    padding: 2px 0;
+    margin: 0;
+  }
+
+  .availDisplay{
+    width: 85%;
+    padding: 10px 0;
+  }
+  
+  .userNames{
+    width: 75%;
+    padding: 0;
+  }
+
+  .userNames li{
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 25px;
+    padding-left: 2px;
+  }
+
+  /* hide coloured name circles */
+  /* .userNames{
+    opacity: 0;
+    width: 0;
+    height: 0;
+  } */
+}
+
+/* phones in portrait */
+@media only screen and (max-width: 428px) and (max-height: 926px) {
+  .overlapResults{
+    flex-direction: column;
+  }
+  /* sidebar */
+  .sidebar{
+    min-height: 0;
+    width: 100%;
+  }
+  .sidebar ul{
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
+  /* overlap info container */
+  .overlapInfoIntro{
+    height: 100%;
+  }
+  .overlapInfoIntro button{
+    align-self: flex-start;
+    margin: 20px 0;
+  }
+  /* hide calendar view button */
+  /* .calendarBtn{
+    display: none;
+  } */
+}
+
+/* small phones portrait */
+@media only screen and (max-width: 384px) and (max-height: 667px){
+  /* hide calendar view button */
+    .calendarBtn {
+      display: none;
+    }
+}
+
+/* small phones landscape */
+@media only screen and (max-width: 667px) and (max-height: 384px){
+  .sidebar{
+    max-width: 265px;
+  }
+  .overlapInfoIntro {
+      height: 20%;
+    }
+  .overlapInfoIntro button {
+      align-self: flex-start;
+      margin: 20px 0;
+    }
+
+  /* hide calendar view button */
+  .calendarBtn {
+    display: none;
+  }
+}
