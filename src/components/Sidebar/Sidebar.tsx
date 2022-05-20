@@ -24,7 +24,6 @@ const Sidebar:React.FC<NameProps> = ({ userNames, numOfAttendees, results }) => 
   // // etc
   useEffect(() => {
     let abortController = new AbortController();
-    console.log("sidebar useeffect is being called")
     let namesToDisplay = numOfAttendees?.map((num) => {
       let name = "";
       let complete = false;
