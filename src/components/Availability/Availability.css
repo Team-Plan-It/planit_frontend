@@ -204,7 +204,7 @@
 .calendar_default_alldayheader_inner,
 .calendar_default_corner_inner,
 .calendar_default_cornerright_inner,
-.calendar_default_colheader_inner,
+.calendar_default_colheader,
 .calendar_default_rowheader_inner  {
   background-color: #C4C4C41A !important;
 }
@@ -234,6 +234,21 @@
 .calendarContainer .calendar_default_corner_inner,
 .calendarContainer .calendar_default_corner{
   min-height: 50px;
+}
+
+.calendarContainer .calendar_default_colheader_inner{
+  width: 30px;
+  margin: 0 auto;
+  border: none;
+  background-color: none
+}
+
+.calendarContainer .calendar_default_colheader{
+  border: 1px solid #c0c0c0;
+}
+
+.calendarContainer .calendar_default_colheader:nth-of-type(7){
+  border-right: none;
 }
 
 .calendarContainer .calendar_default_main {
