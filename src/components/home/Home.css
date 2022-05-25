@@ -380,8 +380,8 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 
 /* disabled cells */
 .navigator-disabled-cell{
-  color: #575757;
-  font-weight: 100;
+  color: #575757 !important;
+  font-weight: 100 !important;
 }
 
 

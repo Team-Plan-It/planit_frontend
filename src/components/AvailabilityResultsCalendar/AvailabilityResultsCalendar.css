@@ -36,7 +36,7 @@
   /* need to override inline styling of library */
   width: 99% !important;
   padding-bottom: 20px;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #E5E5E5 !important;
 }
 
 .resultsCalendar .calendar_default_cell {
