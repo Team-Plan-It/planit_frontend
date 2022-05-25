@@ -307,7 +307,7 @@ p.timezoneMessage:nth-of-type(1){
 .navigator_default_main *,
 .navigator_default_main *:before,
 .navigator_default_main *:after {
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 }
 
 .navigator_default_line {

@@ -189,9 +189,9 @@
 
 /* calendar styles */
 .calendar_default_main {
-  border: 1px solid #1657F3;;
-  font-family: 'Lexend', sans-serif;
-  font-size: 12px;
+  border: 1px solid #1657F3 !important;
+  font-family: 'Lexend', sans-serif !important;
+  font-size: 12px !important;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 5px;
@@ -203,19 +203,19 @@
 .calendar_default_cornerright_inner,
 .calendar_default_colheader_inner,
 .calendar_default_rowheader_inner  {
-  background-color: #C4C4C41A;
+  background-color: #C4C4C41A !important;
 }
 
 
 
 .calendar_default_rowheader_inner,
 .calendar_default_corner_inner {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .calendar_default_cell_inner {
-  background-color: #FFFFFF;
-  border-radius: 3px solid rgb(155, 155, 155);
+  background-color: #FFFFFF !important;
+  border-radius: 3px solid rgb(155, 155, 155) !important;
 }
 
 .calendar_default_colheader_inner,
@@ -240,12 +240,12 @@
 
 /* events */
 .calendar_default_event_inner {
-  background: #1657F340;
-  border: 2px solid #FFFFFF;
-  box-sizing: border-box;
+  background: #1657F340 !important;
+  border: 2px solid #FFFFFF !important;
+  box-sizing: border-box !important;
   border-radius: 12px;
-  padding: 4px 13px;
-  font-size: .7rem;
+  padding: 4px 13px !important;
+  font-size: .7rem !important;
 }
 
 
