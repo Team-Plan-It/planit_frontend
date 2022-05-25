@@ -216,6 +216,7 @@
 .calendar_default_rowheader_inner,
 .calendar_default_corner_inner {
   border-bottom: none !important;
+  font-size: 16px !important;
 }
 
 .calendar_default_cell_inner {
@@ -245,15 +246,11 @@
   border: none;
   background: transparent !important;
 }
-/* 
+
 .calendarContainer .calendar_default_colheader{
-  border-right: 1px solid #c0c0c0;
-  border-left: 1px solid #c0c0c0;
-} */
-/* 
-.calendarContainer .calendar_default_colheader:nth-of-type(7){
-  border-right: none;
-} */
+  border-left: 1px solid grey !important;
+}
+
 
 .calendarContainer .calendar_default_main {
   margin-top: 0;
@@ -268,6 +265,7 @@
   border-radius: 12px;
   padding: 4px 13px !important;
   font-size: .7rem !important;
+  margin-left: 5px;
 }
 
 
