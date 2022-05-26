@@ -277,7 +277,7 @@ const Availability = (props: any) => {
             </div>
           
           {
-           (width! >= 810 && height! >= 810) || (orientation === "landscape" && width! > 700)
+           (width! >= 800 && height! >= 800) || (orientation === "landscape" && width! > 700)
            ? <form onSubmit={ onSubmit }>
             
             <section className="userNameInput">
@@ -331,8 +331,8 @@ const Availability = (props: any) => {
             : <div className="deviceMessage">
                 <p>This app is best used on a larger screen, such as a laptop or desktop computer.</p>
                 {
-                  (orientation === "landscape" && width! > 700) || (orientation === "portrait" && width! > 700)
-                  ?<p>Turn your phone to landscape for a better view.</p>
+                  (orientation === "landscape" && width! < 700) || (orientation === "portrait" && height! > 700 )
+                  ?<p>Turn your device to landscape for a better view.</p>
                   :null
                 }
             </div>
