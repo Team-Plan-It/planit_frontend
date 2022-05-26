@@ -90,6 +90,7 @@
 .welcomeModal li {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 0 25px;
   padding: 1rem;
   text-align: center;
@@ -136,12 +137,13 @@
   width: 100%;
   position: absolute;
   top: 5%;
+  bottom: auto;
 }
 
 .scheduleModal h1 {
   font-size: 1.8rem;
   margin-top: 2%;
-  margin-bottom: 5%;
+  margin-bottom: 1%;
   text-align: center;
 }
 
@@ -155,6 +157,7 @@
   justify-content: center;
   width: 80%;
   max-width: 1300px;
+  padding: 1%;
 }
 
 .homeInput form{
@@ -163,7 +166,7 @@
   align-items: flex-start;
   width: 100%;
   max-width: 1200px;
-
+  padding: 5%;
 }
 
 
@@ -199,7 +202,6 @@
   height: 48px;
   background: #FFFFFF;
   border: 1px solid #C8C8C8;
-  box-sizing: border-box;
   border-radius: 6px;
 }
 
@@ -259,6 +261,7 @@
   font-size: 1rem;
   padding: 0 5px;
   max-width: 345px;
+  margin-top: 10px;
 }
 
 .react-multi-email.empty>span[data-placeholder]{
@@ -281,6 +284,7 @@
 .timezoneMessage {
   font-size: 1rem;
   max-width: 345px;
+
 }
 
 p.timezoneMessage:nth-of-type(1){
@@ -388,7 +392,7 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 /* button to submit meeting info - generate link */
 .meetingSubmitBtn {
   position: relative;
-  right: -325px;
+  right: -62%;
   margin-top: 30px;
   margin-bottom: 10px;
   width: 150px;
@@ -423,8 +427,8 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
   width: 100%;
 }
 
-
-/* media queries */
+/* ----------------------------------------------------------------- */
+/* MEDIA QUERIES */
 @media only screen and (max-width: 1130px){
   /* welcome modal */
   .welcomeModal li {
@@ -438,8 +442,8 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 
   /* schedule modal */
   .scheduleModal{
-    left: 7%;
-    right: 7%;
+    left: 6%;
+    right: 6%;
     top: 7%;
     bottom: 7%;
   }
@@ -447,6 +451,17 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
   .timezoneMessage:nth-of-type(1) {
     margin-top: 0px;
   }
+}
+
+/* small tablets */
+@media only screen and (max-width: 1024px) and (max-height: 600px){
+  body{
+    font-size: 120%;
+  }
+  .welcomeModal h2{
+    margin-top: 0px;
+  }
+  
 }
 
 @media only screen and (max-width: 986px) {
@@ -460,21 +475,31 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
   .homeInput .errorMessage.maxEmails:before{
     height: 100px;
   }
+
 }
 
-@media only screen and (max-width: 890px){
+@media only screen and (max-width: 922px){
   /* schedule modal */
   .scheduleModal{
     top: 2%;
     bottom: 2%;
   }
+  
 
   /* change form to column  */
   .homeInput form{
     flex-direction: column;
   }
+  /* .homeInput select,
+  .homeInput input,
+  .react-multi-email{
+    border-left-width: 2px;
+  } */
 
+  /* align calendar section center */
   .formEventCalendar{
+    display: flex;
+    flex-direction: column;
     margin-top: 6%;
     align-self: center;
   }
@@ -496,32 +521,106 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
     max-width: 98%;
   }
 
+  .timezoneMessage{
+    padding-left: 5px;
+  }
+
   .meetingSubmitBtn{
+    align-self: center;
     margin-bottom: 5%;
+    right: 0;
   }
 }
 
 
-
-@media only screen and (max-width: 750px) {
+/* ipad portrait */
+@media only screen and (max-width: 812px) {
+  .welcomeModal,
+  .successModal,
+  .scheduleModal {
+    left: 5%;
+    right: 5%;
+    top: 2%;
+    bottom: 2%;
+  }
+  .welcomeModal h2{
+    font-size: 2rem;
+    padding-top: 5px;
+  }
   .welcomeModal p{
     max-width: none;
+    font-size: 1rem;
+  }
+  .welcomeModal li{
+    padding: .6rem;
   }
 
   /* schedule modal */
   .scheduleModal{
     padding: 1%;
   }
+  .scheduleModalContainer{
+    top:1%;
+  }
 
   .homeInput{
     width: 95%;
   }
-  
-  .meetingSubmitBtn{
-    left: 30%;
-    right: 0;
+
+  .formEventDetails{
+    padding-right: 0%;
+  }
+ 
+}
+
+@media only screen and (max-width: 360px){
+  .homeInput form{
+    padding: 0px;
+  }
+  .scheduleModalContainer{
+    width: 99%;
   }
 }
+
+/* landscape */
+@media only screen and (max-height: 599px) {
+  .background {
+    height: 75vh;
+  }
+
+  .welcomeModal,
+  .successModal {
+    top: 5%;
+    bottom: 5%;
+    padding: 10px;
+  }
+
+  .welcomeModal h2 {
+    margin-top: 0px;
+  }
+
+
+  .welcomeModal li {
+    height: 50px;
+  }
+
+  .welcomeModal .imageContainer {
+    width: 0%;
+    height: 0%;
+  }
+
+  .scheduleModalOpen {
+    margin-top: 10px;
+  }
+
+  /* success modal */
+  .successMessages .imageContainer {
+    width: 370px;
+    height: 160px;
+  }
+
+}
+
 
 @media only screen and (max-width: 496px){
   /* background of all modals */
@@ -530,11 +629,13 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
     }
 
     /* welcome modal */
-  .welcomeModal{
+  .welcomeModal,
+  .successModal{
     top: 2%;
-    right: 3%;
+    right: 2%;
     bottom: 2%;
-    left: 3%;
+    left: 2%;
+    overflow: hidden;
   }
   .welcomeModal h2{
     margin-top: 0px;
@@ -569,55 +670,21 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
     left: 1%;
   }
   .formEventCalendar p{
-    padding-left: 10px;
+    padding-left: 5px;
   }
-
-  /* success modal */
-  .successModal{
-    top: 2%;
-    right: 3%;
-    bottom: 2%;
-    left: 3%;
-    overflow: hidden;
-  }
-}
-
-  /* landscape */
-@media only screen and (max-height: 599px){
-  .background{
-    height: 75vh;
-  }
-  .welcomeModal,
-  .successModal{
-    top: 7%;
-    bottom: 7%;
-    padding: 10px;
-  }
-  .welcomeModal h2 {
-    margin-top: 0px;
-  }
-  
-  .welcomeModal ul {
-    height: 100px;
-  }
-
-  .welcomeModal li{
-    height: 75px;
-  }
-
-  .welcomeModal .imageContainer {
-    width: 0%;
-    height: 0%;
-  }
-
-  .scheduleModalOpen {
-    margin-top: 10px;
-  }
-
-  /* success modal */
-  .successMessages .imageContainer {
-    width: 370px;
-    height: 160px;
+  .navigator_default_main{
+    width: 275px !important;
   }
 
 }
+
+@media only screen and (max-width: 375px){
+ 
+}
+
+/* small phones */
+/* @media only screen and (max-width: 375px) and (max-height:667px){
+
+} */
+
+

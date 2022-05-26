@@ -51,10 +51,14 @@ button:hover{
 
 label, select, input, option {
   font-family: "Lexend", sans-serif;
-  font-size: .8em;
+  font-size: 1rem;
   line-height: 20px;
   font-weight: 300;
   padding: 5px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
 input:focus,
