@@ -184,7 +184,8 @@
 .calendarHeader p{
   font-weight: 300;
   font-size: 1.3rem;
-
+  padding-top: 10px;
+  padding-bottom: 5px;
 }
 
 
@@ -277,7 +278,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  font-size: 1rem;
 }
 
 
@@ -404,9 +406,32 @@
     justify-content: flex-start;
   }
 
-    .availabilityModalInfo{
-      max-width: 250px;
-    }
+  .availabilityModalInfo{
+    max-width: 250px;
+    padding-left: 15px;
+  }
+
+  .availabilityModalInfo h1{
+    font-size: 1.7rem;
+  }
+
+  .availabilityModalInfo h2{
+    font-size: 1.5rem;
+  }
+
+  .availabilityModalInfo p{
+    padding-right: 8px;
+  }
+
+  .userNameInput{
+    padding-left: 15px;
+    padding-right: 10px;
+  }
+
+  .calendarContainer{
+    margin-top: -345px;
+  }
+
 
   /* no avail modal */
   .noAvailModal{
@@ -426,7 +451,6 @@
 }
 
 /* small phones */
-/* can't see availability calendar form */
 @media only screen and (max-width: 699px) and (max-height: 400px){
   .availabilityModalInfo{
     max-width: 100%;
@@ -434,4 +458,25 @@
   .availabilityModalInfo h1{
     padding-top: 5px;
   }
+  
+  .availabilityModal form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .availabilitySubmitBtn{
+    position: absolute;
+    top: 27px;
+    right: 5%;
+  }
+  
+  .userNameInput{
+    width: 95.6%;
+    padding: 15px;
+  }
+  .calendarContainer{
+    margin-top: 0px;
+  }
 }
+
+/* can't see availability calendar form */

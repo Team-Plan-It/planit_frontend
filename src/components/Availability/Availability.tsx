@@ -274,7 +274,7 @@ const Availability = (props: any) => {
             </div>
           
           {
-           (width! >= 800 && height! >= 800) || (orientation === "landscape" && width! > 700)
+           (width! >= 800 && height! >= 800) || (orientation === "landscape" && width! > 600)
            ? <form onSubmit={ onSubmit }>
             
             <section className="userNameInput">
