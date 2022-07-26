@@ -51,7 +51,7 @@ type FormData = {
 
 const Home:React.FC = () => {
   // initialize useForm
-  const { register, handleSubmit, setValue, formState: { errors}, reset } = useForm<FormData>();
+  const { register, handleSubmit, setValue, formState: { errors} } = useForm<FormData>();
 
   // init custom hook
   const { width } = useViewport();
@@ -201,8 +201,7 @@ const Home:React.FC = () => {
             console.log("error message: ", error.message)
           }
         });
-        // reset form fields
-        // reset();
+
         setNoDate(false);
         setSchedModalIsOpen(false); // closes scheduling modal
         setSuccessModalIsOpen(true); // opens success modal

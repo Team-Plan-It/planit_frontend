@@ -42,7 +42,7 @@ const Availability = (props: any) => {
   let calendar = DayPilot.Calendar;
 
   // initialize useForm
-  const { register, handleSubmit, setValue, formState: { errors}, reset } = useForm<FormData>();
+  const { register, handleSubmit, setValue, formState: { errors} } = useForm<FormData>();
 
   // init modal
   Modal.setAppElement('#root');
@@ -139,7 +139,7 @@ const Availability = (props: any) => {
     getData();
     return () => { abortController.abort(); }
     
-  }, [])
+  }, [meetingNumID, navigate])
 
 
 
@@ -246,9 +246,6 @@ const Availability = (props: any) => {
         }
        });
     })
-
-    //reset form fields
-    // reset();
     }
   })
 
