@@ -12,6 +12,7 @@
     "@types/node": "^16.11.36",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
+    "@types/react-modal": "^3.13.1",
     "axios": "^0.26.1",
     "dotenv": "^10.0.0",
     "nodemailer": "^6.7.5",
@@ -19,6 +20,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.29.0",
+    "react-modal": "^3.15.1",
     "react-multi-email": "^0.5.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
@@ -48,9 +50,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-modal": "^3.13.1",
-    "react-modal": "^3.15.1"
   }
 }
