@@ -303,8 +303,8 @@ p.timezoneMessage:nth-of-type(1){
   border-radius: 15px !important;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
   margin-top: 10px !important;
-  padding-left: 25px !important;
-  padding-right: 25px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
   width: 445px !important;
 }
 
@@ -392,7 +392,7 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 /* button to submit meeting info - generate link */
 .meetingSubmitBtn {
   position: relative;
-  right: -62%;
+  right: -60%;
   margin-top: 30px;
   margin-bottom: 10px;
   width: 150px;
@@ -502,6 +502,7 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
     flex-direction: column;
     margin-top: 6%;
     align-self: center;
+    padding-left: 12px;
   }
 
   .homeInput input,
@@ -569,6 +570,10 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 
   .formEventDetails{
     padding-right: 0%;
+  }
+
+  .formEventCalendar{
+    padding-left: 0;
   }
  
 }
@@ -650,12 +655,12 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
   }
 
   .welcomeModal h1{
-    font-size: 1.35rem;
+    font-size: 1.2rem;
     max-width: 300px;
   }
   .welcomeModal h2{
     margin-top: 0px;
-   
+    font-size: 1.75rem;
   }
 
   .welcomeModal img{
@@ -670,7 +675,7 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 
   .welcomeModal li {
     height: 10%;
-    padding-top: 2rem;
+    padding-top: 1.2rem;
     padding-bottom: 2rem;
     max-width: 250px;
     margin: 0 auto;
