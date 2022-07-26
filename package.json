@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@daypilot/daypilot-lite-react": "^3.4.0",
+    "@daypilot/daypilot-lite-react": "^3.8.0",
     "@hookform/error-message": "^2.0.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
