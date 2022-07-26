@@ -508,13 +508,13 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
   .homeInput select,
   .react-multi-email,
   .timezoneMessage {
-    min-width: 220px;
+    min-width: 200px;
     width: 100%;
     max-width: none;
   }
 
   .react-multi-email{
-    width: 97%;
+    width: 100%;
   }
 
   .homeInput .errorMessage{
@@ -590,15 +590,26 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 
   .welcomeModal,
   .successModal {
-    top: 5%;
-    bottom: 5%;
+    top: 2%;
+    bottom: 2%;
     padding: 10px;
+    right: 5%;
+    left: 5%;
+  }
+
+  .welcomeModal h1{
+    font-size: 1.35rem;
   }
 
   .welcomeModal h2 {
     margin-top: 0px;
+    font-size: 1.9rem;
   }
 
+  .welcomeModal img{
+    /* width: 50%; */
+    max-width: 150px;
+  }
 
   .welcomeModal li {
     height: 50px;
@@ -637,20 +648,32 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
     left: 2%;
     overflow: hidden;
   }
+
+  .welcomeModal h1{
+    font-size: 1.35rem;
+    max-width: 300px;
+  }
   .welcomeModal h2{
     margin-top: 0px;
+   
+  }
+
+  .welcomeModal img{
+    width: 50%;
   }
 
   .welcomeModal ul{
     flex-direction: column;
     justify-content: center;
-    height: 200px;
+    height: 150px;
   }
 
   .welcomeModal li {
     height: 10%;
     padding-top: 2rem;
     padding-bottom: 2rem;
+    max-width: 250px;
+    margin: 0 auto;
   }
 
   .welcomeModal .imageContainer {
@@ -678,9 +701,9 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
 
 }
 
-@media only screen and (max-width: 375px){
- 
-}
+/* @media only screen and (max-width: 375px){
+  
+} */
 
 /* small phones */
 /* @media only screen and (max-width: 375px) and (max-height:667px){
