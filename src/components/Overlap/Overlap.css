@@ -356,34 +356,61 @@
     margin: 20px 0;
   }
   /* hide calendar view button */
-  /* .calendarBtn{
+  .calendarBtn{
     display: none;
-  } */
+  }
 }
 
 /* small phones portrait */
-@media only screen and (max-width: 384px) and (max-height: 667px){
+@media only screen and (max-width: 384px) and (max-height: 815px){
+  .overlapInfoIntro h1{
+    font-size: 1.8rem;
+  }
+  
   /* hide calendar view button */
-    .calendarBtn {
-      display: none;
-    }
+  .calendarBtn {
+    display: none;
+  }
+
+  .overlapInfoDetails {
+    padding: 0 5%;
+    text-align: center;
+  }
+
+  .overlapInfoDetails > ul{
+    width: 100%;
+  }
+     
 }
 
 /* small phones landscape */
 @media only screen and (max-width: 667px) and (max-height: 384px){
-  .sidebar{
-    max-width: 265px;
-  }
+  
   .overlapInfoIntro {
-      height: 20%;
-    }
+    /* height: 20%; */
+    min-height: 175px;
+  }
+
+  .overlapInfoIntro h1{
+    font-size: 1.8rem;
+  }
+
   .overlapInfoIntro button {
-      align-self: flex-start;
-      margin: 20px 0;
-    }
+    align-self: flex-start;
+    margin: 20px 0;
+  }
+
+  .overlapInfoDetails {
+    padding: 0 5%;
+    text-align: center;
+  }
 
   /* hide calendar view button */
   .calendarBtn {
     display: none;
+  }
+
+  .overlapInfoDetails > ul{
+    width: 100%;
   }
 }

@@ -65,8 +65,8 @@
 
 /* events styling  */
 .resultsCalendar .calendar_default_event_inner {
-  width: 15px;
-  padding: 6px 0px 0px 6px;
+  width: 13px;
+  padding: 6px 0px 0px 3px;
   font-weight: 600;
   margin-left: 10%;
   border-radius: 0;

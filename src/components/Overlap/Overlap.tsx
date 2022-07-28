@@ -8,7 +8,7 @@ import { DayPilot } from "@daypilot/daypilot-lite-react";
 //components
 import Sidebar from "../Sidebar/Sidebar";
 import AvailabiltyResultsCalendar from "../AvailabilityResultsCalendar/AvailabilityResultsCalendar";
-import { useViewport } from "../../CustomHooks";
+// import { useViewport } from "../../CustomHooks";
 
 //styles
 import "./Overlap.css";
@@ -91,7 +91,7 @@ const Overlap:React.FC= () => {
   let navigate = useNavigate();
 
   // init custom hook for viewport
-  const { width, height } = useViewport();
+  // const { width, height } = useViewport();
 
   // init state
   // loading
