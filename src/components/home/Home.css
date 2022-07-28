@@ -575,6 +575,10 @@ div.navigator_default_select.navigator_default_weekend .navigator_default_cell_b
   .formEventCalendar{
     padding-left: 0;
   }
+
+  .navigator_default_main{
+    width: 275px !important;
+  }
  
 }
 
