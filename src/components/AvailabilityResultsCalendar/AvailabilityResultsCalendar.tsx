@@ -14,41 +14,8 @@ import "./AvailabilityResultsCalendar.css";
 
 
 // types
-type Availability = {
-    start: string;
-    end:string;
-    id: number;
-    text: string;
-  }
+import { AvailabilityI, UserInfo, MeetingInfo } from "../../types";
 
-type UserInfo = {
-  userName?: string;
-  timeZone?: string;
-  availability?: Availability[];
-  id?: string;
-} 
-
-interface AvailabilityArray{
-  sunday?: UserInfo[];
-  monday?: UserInfo[];
-  tuesday?: UserInfo[];
-  wednesday?: UserInfo[];
-  thursday?: UserInfo[];
-  friday?: UserInfo[];
-  saturday?: UserInfo[];
-}
-
-interface MeetingInfo {
-  id: string;
-  eventName: string;
-  date: string;
-  length: string;
-  meetingNumber: string;
-  timezone: string;
-  emails: string[];
-  users:UserInfo[];
-  availabilityArray: AvailabilityArray;
-}
 interface PropsInfo{
   meetingData?:MeetingInfo;
   timeZoneOffset?:number;
@@ -78,7 +45,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
   // show or hide weekends of results calendar
   const [ showWeekends, setShowWeekends ] = useState<boolean>(true);
   // meeting data
-  const [ meetingData, setMeetingData ] = useState<MeetingInfo>();
+  // const [ meetingData, setMeetingData ] = useState<MeetingInfo>();
 
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL_LOCAL;
 
@@ -112,7 +79,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
            // set event created to false
            setEventCreated(false)
            // save data in state
-           setMeetingData(response.data[0])
+          //  setMeetingData(response.data[0])
            setSelectedDate(date);
            setUserInfoData(users);
             
@@ -149,7 +116,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
 
 
   // function for creating event
-  const createNewEvent = (availBlock:Availability, userArray:UserInfo, userNum:number) => {
+  const createNewEvent = (availBlock:AvailabilityI, userArray:UserInfo, userNum:number) => {
       // for each object, get start and end value
       let currentStart = new DayPilot.Date(availBlock.start);
       let currentEnd = new DayPilot.Date(availBlock.end);

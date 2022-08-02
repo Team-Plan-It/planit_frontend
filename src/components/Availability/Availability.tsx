@@ -17,17 +17,12 @@ import { useOrientation, useViewport } from "../../CustomHooks";
 import "./Availability.css";
 
 //types
-type UserName = string;
-type AvailabilityArray = any[];
-type Timezone = string;
-
-
+import { AvailabilityI } from "../../types";
 
 type FormData = {
-  userName: UserName;
-  availability: AvailabilityArray;
-  timezone: Timezone;
-  
+  userName: string;
+  availability: AvailabilityI[];
+  timezone: string;
 }
 
 
@@ -55,7 +50,7 @@ const Availability = (props: any) => {
 
   // initialize state
   // all availabilites selected by user
-  const [ eventArray, setEventArray ] = useState<AvailabilityArray>([]);
+  const [ eventArray, setEventArray ] = useState<AvailabilityI[]>([]);
   // timezone of invitee/person using this page
   const [ timezone, setTimezone ] = useState<string>();
   // timeZoneOffset
@@ -225,8 +220,8 @@ const Availability = (props: any) => {
     let availToChange = data.availability;
     availToChange.forEach((availBlock) => {
       // for each object, get start and end value
-      let currentStart = availBlock.start;
-      let currentEnd = availBlock.end;
+      let currentStart = new DayPilot.Date(availBlock.start);
+      let currentEnd = new DayPilot.Date(availBlock.end);
       // add the timeZoneOffset in minutes to currentTime
       let newStart =  currentStart.addMinutes(timeZoneOffset);
       let newEnd = currentEnd.addMinutes(timeZoneOffset);

@@ -14,53 +14,9 @@ import AvailabiltyResultsCalendar from "../AvailabilityResultsCalendar/Availabil
 import "./Overlap.css";
 
 // types
-type Availability = {
-    start: string;
-    end:string;
-    id: number;
-    text: string;
-  }
-type UserInfo = {
-  userName?: string;
-  timeZone?: string;
-  availability?: Availability[];
-  id?: string;
-} 
-type TimeObj ={
-  start: string;
-  startObj: Date;
-  end: string;
-  endObj: Date;
-  user:string;
-}
+import { UserInfo, MeetingInfo, DayObjects, DateInfo } from "../../types";
 
-interface MeetingInfo {
-  id: string;
-  eventName: string;
-  date: string;
-  length: string;
-  meetingNumber: string;
-  timezone: string;
-  emails: string[];
-  users:UserInfo[];
-  availabilityArray: AvailabilityArray;
-}
 
-interface AvailabilityArray{
-  sunday?: UserInfo[];
-  monday?: UserInfo[];
-  tuesday?: UserInfo[];
-  wednesday?: UserInfo[];
-  thursday?: UserInfo[];
-  friday?: UserInfo[];
-  saturday?: UserInfo[];
-}
-interface DayObjects{
-  time: string;
-  timeString?: string;
-  convertedTimeString?: DayPilot.Date;
-  array: TimeObj[];
-}
 interface AllDayArrays {
   day0array: DayObjects[];
   day1array: DayObjects[];
@@ -69,12 +25,6 @@ interface AllDayArrays {
   day4array: DayObjects[];
   day5array: DayObjects[];
   day6array: DayObjects[];
-}
-
-interface DateInfo{
-  day: number;
-  month: string;
-  year: number;
 }
 
 interface AllAvailObj {
