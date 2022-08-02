@@ -30,22 +30,16 @@ import "./Home.css";
 
 
 // types
-type EventName = string;
-type TimeSelect = string;
 type DateSelected = string | null;
-type UserTimeZone = string;
 type Email = string;
-type meetingNumber = string;
-
-
 
 type FormData = {
-  eventName: EventName;
-  length: TimeSelect;
+  eventName: string;
+  length: string;
   date: DateSelected;
-  timezone: UserTimeZone;
+  timezone: string;
   emails: Email[];
-  meetingNumber: meetingNumber;
+  meetingNumber: string;
 }
 
 

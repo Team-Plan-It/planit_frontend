@@ -14,41 +14,8 @@ import "./AvailabilityResultsCalendar.css";
 
 
 // types
-type Availability = {
-    start: string;
-    end:string;
-    id: number;
-    text: string;
-  }
+import { AvailabilityI, UserInfo, MeetingInfo } from "../../types";
 
-type UserInfo = {
-  userName?: string;
-  timeZone?: string;
-  availability?: Availability[];
-  id?: string;
-} 
-
-interface AvailabilityArray{
-  sunday?: UserInfo[];
-  monday?: UserInfo[];
-  tuesday?: UserInfo[];
-  wednesday?: UserInfo[];
-  thursday?: UserInfo[];
-  friday?: UserInfo[];
-  saturday?: UserInfo[];
-}
-
-interface MeetingInfo {
-  id: string;
-  eventName: string;
-  date: string;
-  length: string;
-  meetingNumber: string;
-  timezone: string;
-  emails: string[];
-  users:UserInfo[];
-  availabilityArray: AvailabilityArray;
-}
 interface PropsInfo{
   meetingData?:MeetingInfo;
   timeZoneOffset?:number;
@@ -78,7 +45,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
   // show or hide weekends of results calendar
   const [ showWeekends, setShowWeekends ] = useState<boolean>(true);
   // meeting data
-  const [ meetingData, setMeetingData ] = useState<MeetingInfo>();
+  // const [ meetingData, setMeetingData ] = useState<MeetingInfo>();
 
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL_LOCAL;
 
@@ -112,7 +79,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
            // set event created to false
            setEventCreated(false)
            // save data in state
-           setMeetingData(response.data[0])
+          //  setMeetingData(response.data[0])
            setSelectedDate(date);
            setUserInfoData(users);
             
@@ -148,6 +115,33 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
   }, [userInfoData])
 
 
+  // function for creating event
+  const createNewEvent = (availBlock:AvailabilityI, userArray:UserInfo, userNum:number) => {
+      // for each object, get start and end value
+      let currentStart = new DayPilot.Date(availBlock.start);
+      let currentEnd = new DayPilot.Date(availBlock.end);
+      // subtract the timeZoneOffset in minutes to currentTime
+      let newStart =  currentStart.addMinutes(-timeZoneOffset!);
+      let newEnd = currentEnd.addMinutes(-timeZoneOffset!);
+      //  create a new event for each availability block
+      let newEvent:any[] = new DayPilot.Event({
+        start: newStart,
+        end: newEnd,
+        id: "user1",
+        text: userArray.userName!.charAt(0).toUpperCase(),
+        toolTip: userArray.userName,
+        fontColor: "#000000",
+        cssClass:`user${userNum}`,
+        ref:`user${userNum}`
+       });
+      //  add the new event to the events list
+      if (calendar !== undefined && newEvent){
+        calendar.events.add(newEvent);
+      }else{
+        // console.log("calendar not initialized")
+      }
+  }
+
   const createEventList = (userData:UserInfo[]) => {
   
     if(!eventCreated ){
@@ -159,29 +153,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
                   
                    // loop through the availability for the user
                   user1array.availability!.forEach((availBlock, index) => {
-                    // for each object, get start and end value
-                    let currentStart = new DayPilot.Date(availBlock.start);
-                    let currentEnd = new DayPilot.Date(availBlock.end);
-                    // subtract the timeZoneOffset in minutes to currentTime
-                    let newStart =  currentStart.addMinutes(-timeZoneOffset!);
-                    let newEnd = currentEnd.addMinutes(-timeZoneOffset!);
-                    //  create a new event for each availability block
-                    let newEvent:any[] = new DayPilot.Event({
-                      start: newStart,
-                      end: newEnd,
-                      id: "user1",
-                      text: user1array.userName!.charAt(0).toUpperCase(),
-                      toolTip: user1array.userName,
-                      fontColor: "#000000",
-                      cssClass:"user1",
-                      ref:"user1"
-                     });
-                    //  add the new event to the events list
-                    if (calendar !== undefined && newEvent){
-                      calendar.events.add(newEvent);
-                    }else{
-                      // console.log("calendar not initialized")
-                    }
+                    createNewEvent(availBlock, user1array, 1);
                   })
                   break;
                 case 1:
@@ -189,26 +161,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
 
                   // loop through the availability for the user
                   user2array.availability!.forEach(availBlock => {
-                    // for each object, get start and end value
-                    let currentStart = new DayPilot.Date(availBlock.start);
-                    let currentEnd = new DayPilot.Date(availBlock.end);
-                    // subtract the timeZoneOffset in minutes to currentTime
-                    let newStart =  currentStart.addMinutes(-timeZoneOffset!);
-                    let newEnd = currentEnd.addMinutes(-timeZoneOffset!);
-                    //  create a new event for each availability block
-                    let newEvent:any[] = new DayPilot.Event({
-                      start: newStart,
-                      end: newEnd,
-                      id: "user2",
-                      text: user2array.userName!.charAt(0).toUpperCase(),
-                      toolTip: user2array.userName,
-                      // backColor: user2color,
-                      fontColor: "#000000",
-                      cssClass:"user2",
-                      ref:"user2"
-                     });
-                    //  add the new event to the events list
-                     calendar.events.add(newEvent);
+                    createNewEvent(availBlock, user2array, 2);
                   })
                   break;
                 case 2:
@@ -216,25 +169,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
   
                   // loop through the availability for the user
                   user3array.availability!.forEach(availBlock => {
-                    // for each object, get start and end value
-                    let currentStart = new DayPilot.Date(availBlock.start);
-                    let currentEnd = new DayPilot.Date(availBlock.end);
-                    // subtract the timeZoneOffset in minutes to currentTime
-                    let newStart =  currentStart.addMinutes(-timeZoneOffset!);
-                    let newEnd = currentEnd.addMinutes(-timeZoneOffset!);                    
-                    //  create a new event for each availability block
-                    let newEvent:any[] = new DayPilot.Event({
-                      start: newStart,
-                      end: newEnd,
-                      id: "user3",
-                      text: user3array.userName!.charAt(0).toUpperCase(),
-                      toolTip: user3array.userName,
-                      fontColor: "#000000",
-                      cssClass:"user3",
-                      ref:"user3"
-                     });
-                    //  add the new event to the events list
-                     calendar.events.add(newEvent);
+                    createNewEvent(availBlock, user3array, 3);
                   })
                   break;
                 case 3:
@@ -242,25 +177,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
   
                   // loop through the availability for the user
                   user4array.availability!.forEach(availBlock => {
-                    // for each object, get start and end value
-                    let currentStart = new DayPilot.Date(availBlock.start);
-                    let currentEnd = new DayPilot.Date(availBlock.end);
-                    // subtract the timeZoneOffset in minutes to currentTime
-                    let newStart =  currentStart.addMinutes(-timeZoneOffset!);
-                    let newEnd = currentEnd.addMinutes(-timeZoneOffset!);                    
-                    //  create a new event for each availability block
-                    let newEvent:any[] = new DayPilot.Event({
-                      start: newStart,
-                      end: newEnd,
-                      id: "user4",
-                      text: user4array.userName!.charAt(0).toUpperCase(),
-                      toolTip: user4array.userName,
-                      fontColor: "#000000",
-                      cssClass:"user4",
-                      ref:"user4"
-                     });
-                    //  add the new event to the events list
-                     calendar.events.add(newEvent);
+                    createNewEvent(availBlock, user4array, 4);
                   })
                   break;
                 case 4:
@@ -268,25 +185,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
 
                   // loop through the availability for the user
                   user5array.availability!.forEach(availBlock => {
-                    // for each object, get start and end value
-                    let currentStart = new DayPilot.Date(availBlock.start);
-                    let currentEnd = new DayPilot.Date(availBlock.end);
-                    // subtract the timeZoneOffset in minutes to currentTime
-                    let newStart =  currentStart.addMinutes(-timeZoneOffset!);
-                    let newEnd = currentEnd.addMinutes(-timeZoneOffset!);                    
-                    //  create a new event for each availability block
-                    let newEvent:any[] = new DayPilot.Event({
-                      start: newStart,
-                      end: newEnd,
-                      id: "user5",
-                      text: user5array.userName!.charAt(0).toUpperCase(),
-                      toolTip: user5array.userName,
-                      fontColor: "#000000",
-                      cssClass:"user5",
-                      ref:"user5"
-                     });
-                    //  add the new event to the events list
-                     calendar.events.add(newEvent);
+                    createNewEvent(availBlock, user5array, 5);
                   })
                   break;
                 case 5:
@@ -294,25 +193,7 @@ const AvailabilityResultsCalendar = ({meetingNumID}:PropsInfo) => {
 
                   // loop through the availability for the user
                   user6array.availability!.forEach(availBlock => {
-                    // for each object, get start and end value
-                    let currentStart = new DayPilot.Date(availBlock.start);
-                    let currentEnd = new DayPilot.Date(availBlock.end);
-                    // subtract the timeZoneOffset in minutes to currentTime
-                    let newStart =  currentStart.addMinutes(-timeZoneOffset!);
-                    let newEnd = currentEnd.addMinutes(-timeZoneOffset!);                    
-                    //  create a new event for each availability block
-                    let newEvent:any[] = new DayPilot.Event({
-                      start: newStart,
-                      end: newEnd,
-                      id: "user6",
-                      text: user6array.userName!.charAt(0).toUpperCase(),
-                      toolTip: user6array.userName,
-                      fontColor: "#000000",
-                      cssClass:"user6",
-                      ref:"user6"
-                     });
-                    //  add the new event to the events list
-                     calendar.events.add(newEvent);
+                    createNewEvent(availBlock, user6array, 6);
                   })
                   break;
              }
