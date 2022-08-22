@@ -16,16 +16,21 @@ import "./Overlap.css";
 // types
 import { UserInfo, MeetingInfo, DayObjects, DateInfo } from "../../types";
 
-
-interface AllDayArrays {
-  day0array: DayObjects[];
-  day1array: DayObjects[];
-  day2array: DayObjects[];
-  day3array: DayObjects[];
-  day4array: DayObjects[];
-  day5array: DayObjects[];
-  day6array: DayObjects[];
+interface AvailabilityByDate{
+  date: string;
+  availabilityByDateArray: DayObjects[];
 }
+interface OverlapResults{
+  date: {
+    day: number;
+    month: string;
+    year: number;
+    dayOfWeekString: string;
+  };
+  allAvailableBlocks: AllAvailObj[] | undefined;
+}
+
+
 
 interface AllAvailObj {
   start: DayPilot.Date;
@@ -54,7 +59,7 @@ const Overlap:React.FC= () => {
   // number of invitees
   const [ numOfAttendees, setNumOfAttendees ] = useState<number[]>();
   // overlap data
-  const [ overlapData, setOverlapData ] = useState<AllDayArrays>();
+  const [ overlapData, setOverlapData ] = useState<OverlapResults[]>();
   // timeZoneOffset
   const [ timeZoneOffset, setTimeZoneOffset ] = useState<number>();
    // timezone of invitee/person using this page
@@ -63,23 +68,23 @@ const Overlap:React.FC= () => {
   const [ showCalendar, setShowCalendar ] = useState<boolean>(false);
 
   // dates
-  const [ sundayDate, setSundayDate ] = useState<DateInfo>();
-  const [ mondayDate, setMondayDate ] = useState<DateInfo>();
-  const [ tuesdayDate, setTuesdayDate ] = useState<DateInfo>();
-  const [ wednesdayDate, setWednesdayDate ] = useState<DateInfo>();
-  const [ thursdayDate, setThursdayDate ] = useState<DateInfo>();
-  const [ fridayDate, setFridayDate ] = useState<DateInfo>();
-  const [ saturdayDate, setSaturdayDate ] = useState<DateInfo>();
+  // const [ sundayDate, setSundayDate ] = useState<DateInfo>();
+  // const [ mondayDate, setMondayDate ] = useState<DateInfo>();
+  // const [ tuesdayDate, setTuesdayDate ] = useState<DateInfo>();
+  // const [ wednesdayDate, setWednesdayDate ] = useState<DateInfo>();
+  // const [ thursdayDate, setThursdayDate ] = useState<DateInfo>();
+  // const [ fridayDate, setFridayDate ] = useState<DateInfo>();
+  // const [ saturdayDate, setSaturdayDate ] = useState<DateInfo>();
 
 
   // arrays of all available timeblocks
-  const [ sundayAllAvail, setSundayAllAvail ] = useState<AllAvailObj[]>();
-  const [ mondayAllAvail, setMondayAllAvail ] = useState<AllAvailObj[]>();
-  const [ tuesdayAllAvail, setTuesdayAllAvail ] = useState<AllAvailObj[]>();
-  const [ wednesdayAllAvail, setWednesdayAllAvail ] = useState<AllAvailObj[]>();
-  const [ thursdayAllAvail, setThursdayAllAvail ] = useState<AllAvailObj[]>();
-  const [ fridayAllAvail, setFridayAllAvail ] = useState<AllAvailObj[]>();
-  const [ saturdayAllAvail, setSaturdayAllAvail ] = useState<AllAvailObj[]>();
+  // const [ sundayAllAvail, setSundayAllAvail ] = useState<AllAvailObj[]>();
+  // const [ mondayAllAvail, setMondayAllAvail ] = useState<AllAvailObj[]>();
+  // const [ tuesdayAllAvail, setTuesdayAllAvail ] = useState<AllAvailObj[]>();
+  // const [ wednesdayAllAvail, setWednesdayAllAvail ] = useState<AllAvailObj[]>();
+  // const [ thursdayAllAvail, setThursdayAllAvail ] = useState<AllAvailObj[]>();
+  // const [ fridayAllAvail, setFridayAllAvail ] = useState<AllAvailObj[]>();
+  // const [ saturdayAllAvail, setSaturdayAllAvail ] = useState<AllAvailObj[]>();
   
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL_LOCAL
 
@@ -97,9 +102,10 @@ const Overlap:React.FC= () => {
         setIsLoadingMeetingData(false)
 
         // deconstruct info from data
-           const { emails, users } = meetingResponse.data[0]!;
+        const { emails, users } = meetingResponse.data[0]!;
 
         // save data in state
+        console.log(meetingResponse.data[0])
         setMeetingData(meetingResponse.data[0]); 
 
         // populate userNameArray 
@@ -119,7 +125,10 @@ const Overlap:React.FC= () => {
         }
 
         setIsLoadingOverlapData(false);
-        setOverlapData(overlapResponse.data);
+        console.log(overlapResponse.data)
+        const overlapResults = await checkOverlapArrays(overlapResponse.data, userNamesArray);
+        setOverlapData(overlapResults);
+        console.log(overlapResults)
 
         // get timezoneoffest
         const timeZoneOffset = new Date().getTimezoneOffset();
@@ -145,31 +154,61 @@ const Overlap:React.FC= () => {
     return () => { abortController.abort(); }
   }, [])
 
-  useEffect(() => {
-    let abortController = new AbortController();
-    if(overlapData !== undefined && meetingData !== undefined && userNames && numOfAttendees && userNames.length === numOfAttendees.length){
-      checkOverlapArrays(overlapData);
-      console.log("its called! overlapdata useeffect")
+  // useEffect(() => {
+  //   let abortController = new AbortController();
+  //   if(overlapData !== undefined && meetingData !== undefined && userNames && numOfAttendees && userNames.length === numOfAttendees.length){
+  //     const overlapResults = checkOverlapArrays(overlapData);
+  //     console.log("its called! overlapdata useeffect")
+  //   }
+  //   return () => { abortController.abort(); }
+  // }, [overlapData])
+
+
+  
+  // function to find the overlapping time by date from the array of availabilites
+  const checkOverlapArrays = async (arrayOfDateObjects:AvailabilityByDate[], userNamesArray:(string | undefined)[]) => {
+    // function to get the day, month and year
+    const getDates = (timeblock:string) => {
+      console.log(timeblock)
+      const convertedTime = new Date(timeblock.replace(/-/g, '\/'));
+  
+      console.log(convertedTime)
+      // get date
+      const day = convertedTime.getDate();
+      const year = convertedTime.getFullYear();
+      const month = convertedTime.toLocaleString('default', {month: "long"});
+      const dayOfWeek = convertedTime.getDay();
+      let dayOfWeekString = "";
+      switch(dayOfWeek){
+        case 0:
+          dayOfWeekString = "Sunday";
+          break;
+        case 1:
+          dayOfWeekString = "Monday";
+          break;
+        case 2:
+          dayOfWeekString = "Tuesday";
+          break;
+        case 3:
+          dayOfWeekString = "Wednesday";
+          break;
+        case 4:
+          dayOfWeekString = "Thursday";
+          break;
+        case 5:
+          dayOfWeekString = "Friday";
+          break;
+        case 6:
+          dayOfWeekString = "Saturday";
+          break;
+      }
+      console.log({day, month, year, dayOfWeekString})
+  
+      return {day, month, year, dayOfWeekString}
     }
-    return () => { abortController.abort(); }
-  }, [overlapData])
 
-  // function to get the day, month and year
-  const getDates = (timeblock:DayObjects) => {
-    const convertedTime = new Date(timeblock.timeString!);
-
-    // get date
-    const day = convertedTime.getDate();
-    const year = convertedTime.getFullYear();
-    const month = convertedTime.toLocaleString('default', {month: "long"});
-
-    return {day, month, year}
-  }
-
-  // check each day array of overlapping results for timeslots that have length > 0
-  const checkOverlapArrays = (arrayOfDayArrays:AllDayArrays) => {
     //function to filter out timeslots that have a length > 0
-    const checkDayArray = (dayArray:DayObjects[]) => {
+    const checkDayObject = (dayArray:DayObjects[]) => {
       const timeslotsWithAvail:any = dayArray.filter(timeslot => {return timeslot.array.length > 0})
     
       return timeslotsWithAvail;
@@ -182,123 +221,35 @@ const Overlap:React.FC= () => {
       return convertedTimeString;
     }
 
-    // if array for each day of the week has content
-    if(arrayOfDayArrays.day0array.length > 0){
-      // get date and save in state
-      const sundayDate = getDates(arrayOfDayArrays.day0array[0]);
-      setSundayDate(sundayDate);
+    // map through the array of date availability objects and return an array of objects with dates and blocks when all users are available
+    const overlapInfoResults = arrayOfDateObjects.map(dateObj => {
+      // get date and save it as object with day, month, year
+      console.log(dateObj.date)
+      const date = getDates(dateObj.date);
 
-      // save filtered results in a variable for each day
-      const sundayResults = checkDayArray(arrayOfDayArrays.day0array);
-      
-      // convert timeString of each object in the array and add it to the array and save in state
-      sundayResults.forEach((timeblock:DayObjects, index:number) => {
-        let convertedTimeString = convertTimeString(timeblock.timeString!);
-        sundayResults[index].convertedTimeString = convertedTimeString;
-      })
-      // get availability blocks when all attendees are available and save in state
-      const sundayAvailBlocks = getAvailableBlocks(sundayResults);
-      setSundayAllAvail(sundayAvailBlocks!);
-    }
-   
-    if(arrayOfDayArrays.day1array.length > 0){
-      const mondayDate = getDates(arrayOfDayArrays.day1array[0]);
-      setMondayDate(mondayDate);
+      console.log(dateObj.availabilityByDateArray)
+      // filter results in availability array to return only slots that are not empty and save them
+      const filteredAvailResults = checkDayObject(dateObj.availabilityByDateArray);
+      console.log(filteredAvailResults)
+      // convert the timeString of each object in the filtered results and save it
+      const convertedAvailResults = filteredAvailResults.map((availResult:DayObjects) => {
+        const convertedTimeString = convertTimeString(availResult.timeString!);
+        availResult.convertedTimeString = convertedTimeString;
+        return availResult;
+      });
+      console.log(convertedAvailResults)
+      // get availability blocks when all attendees are available and save
+      const allAvailableBlocks = getAvailableBlocks(convertedAvailResults, userNamesArray);
 
-      const mondayResults = checkDayArray(arrayOfDayArrays.day1array);
-      
-      mondayResults.forEach((timeblock:DayObjects, index:number) => {
-        let convertedTimeString = convertTimeString(timeblock.timeString!);
-        mondayResults[index].convertedTimeString = convertedTimeString;
-      })
+      console.log(allAvailableBlocks)
+      return {date, allAvailableBlocks}
+    })
 
-      const mondayAvailBlocks = getAvailableBlocks(mondayResults);
-      if(mondayAvailBlocks !== undefined){
-        setMondayAllAvail(mondayAvailBlocks!);
-      }
-    }
-
-    if(arrayOfDayArrays.day2array.length > 0){
-      const tuesdayDate = getDates(arrayOfDayArrays.day2array[0]);
-     
-      setTuesdayDate(tuesdayDate);
-      const tuesdayResults = checkDayArray(arrayOfDayArrays.day2array);
-      tuesdayResults.forEach((timeblock:DayObjects, index:number) => {
-        let convertedTimeString = convertTimeString(timeblock.timeString!);
-        tuesdayResults[index].convertedTimeString = convertedTimeString;
-      })
-      const tuesdayAvailBlocks = getAvailableBlocks(tuesdayResults);
-      if(tuesdayAvailBlocks !== undefined){
-        setTuesdayAllAvail(tuesdayAvailBlocks!);
-      }
-    }
-
-    if(arrayOfDayArrays.day3array.length > 0){
-      const wednesdayDate = getDates(arrayOfDayArrays.day3array[0]);
-      setWednesdayDate(wednesdayDate);
-      const wednesdayResults = checkDayArray(arrayOfDayArrays.day3array);
-
-      wednesdayResults.forEach((timeblock:DayObjects, index:number) => {
-        let convertedTimeString = convertTimeString(timeblock.timeString!);
-        wednesdayResults[index].convertedTimeString = convertedTimeString;
-      })
-
-      const wednesdayAvailBlocks = getAvailableBlocks(wednesdayResults);
-      if(wednesdayAvailBlocks !== undefined){
-        setWednesdayAllAvail(wednesdayAvailBlocks!);
-      }
-    }
-
-    if(arrayOfDayArrays.day4array.length > 0){
-      const thursdayDate = getDates(arrayOfDayArrays.day4array[0]);
-      setThursdayDate(thursdayDate);
-      const thursdayResults = checkDayArray(arrayOfDayArrays.day4array);
-
-      thursdayResults.forEach((timeblock:DayObjects, index:number) => {
-        let convertedTimeString = convertTimeString(timeblock.timeString!);
-        thursdayResults[index].convertedTimeString = convertedTimeString;
-      })
-
-      const thursdayAvailBlocks = getAvailableBlocks(thursdayResults);
-      if(thursdayAvailBlocks !== undefined){
-        setThursdayAllAvail(thursdayAvailBlocks!);
-      }
-    }
-
-    if(arrayOfDayArrays.day5array.length > 0){
-      const fridayDate = getDates(arrayOfDayArrays.day5array[0]);
-      setFridayDate(fridayDate);
-      const fridayResults = checkDayArray(arrayOfDayArrays.day5array);
-
-      fridayResults.forEach((timeblock:DayObjects, index:number) => {
-        let convertedTimeString = convertTimeString(timeblock.timeString!);
-        fridayResults[index].convertedTimeString = convertedTimeString;
-      })
-
-      const fridayAvailBlocks = getAvailableBlocks(fridayResults);
-      if(fridayAvailBlocks !== undefined){
-        setFridayAllAvail(fridayAvailBlocks!);
-      }
-    }
-
-    if(arrayOfDayArrays.day6array.length > 0){
-      const saturdayDate = getDates(arrayOfDayArrays.day6array[0]);
-      setSaturdayDate(saturdayDate);
-      const saturdayResults = checkDayArray(arrayOfDayArrays.day6array);
-
-      saturdayResults.forEach((timeblock:DayObjects, index:number) => {
-        let convertedTimeString = convertTimeString(timeblock.timeString!);
-        saturdayResults[index].convertedTimeString = convertedTimeString;
-      })
-
-      const saturdayAvailBlocks = getAvailableBlocks(saturdayResults);
-      if(saturdayAvailBlocks !== undefined){
-        setSaturdayAllAvail(saturdayAvailBlocks!);
-      }
-    }
-  }
+   return overlapInfoResults;
+  } // end of checkOverlapArrays
 
 
+  // function to convert timeblock to start and end times with am/pm, and length of timeblock
   const convertAvailTimeString = (timeblock:AllAvailObj) => {
     let startAmPm = "am";
     let endAmPm = "am";
@@ -370,15 +321,16 @@ const Overlap:React.FC= () => {
   }
 
 
-  const getAvailableBlocks = (resultsArray:DayObjects[]) => {
+  // function to return all timeblocks when all attendees are available
+  const getAvailableBlocks = (resultsArray:DayObjects[], userNamesArray:(string | undefined)[]) => {
     let startTime:DayPilot.Date;
     let endTime:DayPilot.Date;
     let allAvailBlocks:AllAvailObj[] = [];
     // go through array looking for array length === numOfAttendees
-    if(userNames){
+    if(userNamesArray){
       resultsArray.forEach(timeblock => {
   
-        if(timeblock.array.length === userNames!.length){
+        if(timeblock.array.length === userNamesArray!.length){
           if(!startTime && !endTime){
            // set start time as time of first timeString
             startTime = new DayPilot.Date(timeblock.convertedTimeString);
@@ -458,300 +410,56 @@ const Overlap:React.FC= () => {
                   : <>
                     {/* <h2>Time Available for Everyone</h2> */}
                     <ul className="availableTimes">
-                      <li>
-                        
-                        {
-                          sundayDate && sundayAllAvail && sundayAllAvail.length > 0
-                          ?<h3 className="day"><span className="text">Sunday</span> {sundayDate.month} {sundayDate.day}, {sundayDate.year}</h3>
-                          :null
-                          
-                        }
-                          
-                        {
-                          sundayAllAvail && sundayAllAvail.length > 0 && userNames
-                          ? <>
-                                <ul className="dayTimes">
-                                  {
-                                    sundayAllAvail.map((timeblock) => {
-                                        const timeResults = convertAvailTimeString(timeblock);
-                                        const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
-                                        return(
-                                          <li key={startHour}>
-                                            <div className="availDisplay">
-                                              <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
-                                              <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
-                                                </div>
-                                            <ul className="userNames">
-                                              {
-                                                userNames.map((name, index) => {
-                                                    return(
-                                                      <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                                    )
-                                                })
-                                              }
-                                              <li key={"userLength"} className="userLength">{userNames.length}/{userNames.length}</li>
-                                            </ul>
+                      {
+                        overlapData !== undefined
 
-                                          </li>
-                                        )
-                                    })
-                                  }
-                                </ul>
-                            </>
-                          : null
-                        }
-                      </li>
-                      <li>
                         
-                        {
-                          mondayDate && mondayAllAvail && mondayAllAvail.length > 0
-                          ?<h3 className="day"><span className="text">Monday</span> {mondayDate.month} {mondayDate.day}, {mondayDate.year}</h3>
-                          :null
-                        }
-                        {
-                          mondayAllAvail && mondayAllAvail.length > 0 && userNames
-                          ? <>
-                                <ul className="dayTimes">
+                        // map through overlapdata  and display the date info for each dataObject
+                       ? overlapData?.map((dataObject, index) => {
+                      
+                          return(
+                            <>
+                              <li key={index}>
+                                {
+                                  dataObject.allAvailableBlocks!.length > 0
+                                    ? <h3 className="day"><span className="text">{dataObject.date.dayOfWeekString}</span> {dataObject.date.month} {dataObject.date.day}, {dataObject.date.year}</h3>
+                                    : null
+                                }
+                                <ul>
+                                
                                   {
-                                    mondayAllAvail.map((timeblock) => {
-                        
-                                        const timeResults = convertAvailTimeString(timeblock);
-                                        const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
-                                        return(
-                                          <li key={startHour}>
-                                            <div className="availDisplay">
-                                              <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
-                                              <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
-                                            </div>
-                                            <ul className="userNames">
-                                              {
-                                                userNames
-                                                ? userNames.map((name, index) => {
-                                                    return(
-                                                      <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                                    )
-                                                })
-                                                :null
-                                              }
-                                              <li key={"userLength"} className="userLength">{userNames.length}/{userNames.length}</li>
-                                            </ul>
-                                          </li>
-                                        )
+                                    // map through the array of availability timeblocks for this date
+                                    dataObject.allAvailableBlocks!.map(timeblock => {
+                                      const timeResults = convertAvailTimeString(timeblock);
+                                      const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
+                                      return(
+                                        <li key={startHour}>
+                                          <div className="availDisplay">
+                                            <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
+                                            <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
+                                              </div>
+                                          <ul className="userNames">
+                                            {
+                                              userNames!.map((name, index) => {
+                                                  return(
+                                                    <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
+                                                  )
+                                              })
+                                            }
+                                            <li key={"userLength"} className="userLength">{userNames!.length}/{userNames!.length}</li>
+                                          </ul>
+                                        </li>
+                                      )
                                     })
                                   }
-                                </ul>
-                            </>
-                          : null
-                        }
-                      </li>
-                      <li>
-                        
-                        {
-                          tuesdayDate && tuesdayAllAvail && tuesdayAllAvail.length > 0
-                          ?<h3 className="day"><span className="text">Tuesday</span> {tuesdayDate.month} {tuesdayDate.day}, {tuesdayDate.year}</h3>
-                          :null
-                        }
-                        {
-                          tuesdayAllAvail && tuesdayAllAvail.length > 0 && userNames
-                          ? <>
-                                <ul className="dayTimes">
-                                  {
-                                    tuesdayAllAvail.map((timeblock) => {
-                                        const timeResults = convertAvailTimeString(timeblock);
-                                        const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
-                                        return(
-                                          <li key={startHour}>
-                                            <div className="availDisplay">
-                                              <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
-                                              <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
-                                            </div>
-                                            <ul className="userNames">
-                                              {
-                                                userNames.map((name, index) => {
-                                                    return(
-                                                      <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                                    )
-                                                })
-                                              }
-                                              <li key={"userLength"} className="userLength">{userNames.length}/{userNames.length}</li>
-                                            </ul>
-                                          </li>
-                                        )
-                                    })
-                                  }
-                                </ul>
-                            </>
-                          : null
-                        }
-                      </li>
-                      <li>
-                        
-                        {
-                          wednesdayDate && wednesdayAllAvail && wednesdayAllAvail.length > 0
-                          ?<h3 className="day"><span className="text">Wednesday</span> {wednesdayDate.month} {wednesdayDate.day}, {wednesdayDate.year}</h3>
-                          :null
-                        }
-                        {
-                          wednesdayAllAvail && wednesdayAllAvail.length > 0 && userNames
-                          ? <>
-                                <ul className="dayTimes">
-                                  {
-                                    wednesdayAllAvail.map((timeblock) => {
-                                        const timeResults = convertAvailTimeString(timeblock);
-                                        const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
-                                        return(
-                                          <li key={startHour}>
-                                            <div className="availDisplay">
-                                              <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
-                                              <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
-                                            </div>
-                                            <ul className="userNames">
-                                              {
-                                                userNames.map((name, index) => {
-                                                    return(
-                                                      <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                                    )
-                                                })
-                                              }
-                                              <li key={"userLength"} className="userLength">{userNames.length}/{userNames.length}</li>
-                                            </ul>
-                                          </li>
-                                        )
-                                    })
-                                  }
-                                </ul>
-                            </>
-                          : null
-                        }
-                      </li>
-                      <li>
-                        
-                        {
-                          thursdayDate && thursdayAllAvail && thursdayAllAvail.length > 0
-                          ?<h3 className="day"><span className="text">Thursday</span> {thursdayDate.month} {thursdayDate.day}, {thursdayDate.year}</h3>
-                          :null
-                        }
-                        {
-                          thursdayAllAvail && thursdayAllAvail.length > 0 && userNames
-                          ? <>
-                                <ul className="dayTimes">
-                                  {
-                                    thursdayAllAvail.map((timeblock) => {
-                                        const timeResults = convertAvailTimeString(timeblock);
-                                        const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
-                                        return(
-                                          <li key={startHour}>
-                                            <div className="availDisplay">
-                                              <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
-                                              <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
-                                            </div>
-                                            <ul className="userNames">
-                                              {
-                                                userNames.map((name, index) => {
-                                                    return(
-                                                      <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                                    )
-                                                })
-                                              }
-                                              <li key={"userLength"} className="userLength">{userNames.length}/{userNames.length}</li>
-                                            </ul>
-                                          </li>
-                                        )
-                                    })
-                                  }
-                                </ul>
-                            </>
-                          : null
-                        }
-                      </li>
-                      <li>
-                        
-                        {
-                          fridayDate && fridayAllAvail && fridayAllAvail.length > 0
-                          ?<h3 className="day"><span className="text">Friday</span> {fridayDate.month} {fridayDate.day}, {fridayDate.year}</h3>
-                          :null
-                        }
-                        {
-                          fridayAllAvail && fridayAllAvail.length > 0 && userNames
-                          ? <>
-                                <ul className="dayTimes">
-                                  {
-                                    fridayAllAvail.map((timeblock) => {
-                                        const timeResults = convertAvailTimeString(timeblock);
-                                        const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
-                                        return(
-                                          <li key={startHour}>
-                                            <div className="availDisplay">
-                                              <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
-                                              <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
-                                            </div>
-                                            <ul className="userNames">
-                                              {
-                                                userNames.map((name, index) => {
-                                                    return(
-                                                      <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                                    )
-                                                })
-                                              }
-                                              <li key={"userLength"} className="userLength">{userNames.length}/{userNames.length}</li>
-                                            </ul>
-                                          </li>
-                                        )
-                                    })
-                                  }
-                                </ul>
-                            </>
-                          : null
-                        }
-                      </li>
-                      <li>
-                        
-                        {
-                          saturdayDate && saturdayAllAvail && saturdayAllAvail.length > 0
-                          ?<h3 className="day"><span className="text">Saturday</span> {saturdayDate.month} {saturdayDate.day}, {saturdayDate.year}</h3>
-                          :null
-                        }
-                        {
-                          saturdayAllAvail && saturdayAllAvail.length > 0 && userNames
-                          ? <>
-                                <ul className="dayTimes">
-                                  {
-                                    saturdayAllAvail.map((timeblock) => {
-                                        const timeResults = convertAvailTimeString(timeblock);
-                                        const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
-                                        return(
-                                          <li key={startHour}>
-                                            <div className="availDisplay">
-                                              <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
-                                              <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
-                                            </div>
-                                            <ul className="userNames">
-                                              {
-                                                userNames.map((name, index) => {
-                                                    return(
-                                                      <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                                    )
-                                                })
-                                              }
-                                              <li key={"userLength"} className="userLength">{userNames.length}/{userNames.length}</li>
-                                            </ul>
-                                          </li>
-                                        )
-                                    })
-                                  }
-                                </ul>
-                            </>
-                          : null
-                        }
-                      </li>
-                      <li key={"noAvailList"}>
-                        {
-                          (!sundayAllAvail || sundayAllAvail.length === 0) && (!mondayAllAvail || mondayAllAvail!.length === 0) && (!tuesdayAllAvail || tuesdayAllAvail!.length === 0) && (!wednesdayAllAvail || wednesdayAllAvail!.length === 0) && (!thursdayAllAvail || thursdayAllAvail!.length === 0) && (!fridayAllAvail || fridayAllAvail!.length === 0) && (!saturdayAllAvail || saturdayAllAvail!.length === 0)
 
-                          ?<h3 className="noAvail">I'm afraid we could not find a time when everyone was available</h3>
-                          :null
-                        }
-                      </li>
+                                </ul>
+                              </li>
+                            </>
+                          )
+                        })
+                        :null
+                      }
                     </ul>
                   </>
                 }
