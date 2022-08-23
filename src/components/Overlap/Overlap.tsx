@@ -1,9 +1,7 @@
 import React, { useState, useEffect }from "react";
 import {  useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { DayPilot } from "@daypilot/daypilot-lite-react";
+
 
 //components
 import Sidebar from "../Sidebar/Sidebar";
@@ -14,14 +12,14 @@ import AvailabiltyResultsCalendar from "../AvailabilityResultsCalendar/Availabil
 import "./Overlap.css";
 
 // types
-import { UserInfo, MeetingInfo, DayObjects, DateInfo } from "../../types";
+import { UserInfo, MeetingInfo, DayObjects } from "../../types";
 
 interface AvailabilityByDate{
   date: string;
   availabilityByDateArray: DayObjects[];
 }
 interface OverlapResults{
-  date: {
+  date?: {
     day: number;
     month: string;
     year: number;
@@ -33,8 +31,8 @@ interface OverlapResults{
 
 
 interface AllAvailObj {
-  start: DayPilot.Date;
-  end: DayPilot.Date;
+  start: Date;
+  end: Date;
 }
 
 
@@ -60,32 +58,12 @@ const Overlap:React.FC= () => {
   const [ numOfAttendees, setNumOfAttendees ] = useState<number[]>();
   // overlap data
   const [ overlapData, setOverlapData ] = useState<OverlapResults[]>();
-  // timeZoneOffset
-  const [ timeZoneOffset, setTimeZoneOffset ] = useState<number>();
-   // timezone of invitee/person using this page
+  // timezone of invitee/person using this page
   const [ currentTimeZone, setCurrentTimeZone ] = useState<string>();
   // show calendar view
   const [ showCalendar, setShowCalendar ] = useState<boolean>(false);
-
-  // dates
-  // const [ sundayDate, setSundayDate ] = useState<DateInfo>();
-  // const [ mondayDate, setMondayDate ] = useState<DateInfo>();
-  // const [ tuesdayDate, setTuesdayDate ] = useState<DateInfo>();
-  // const [ wednesdayDate, setWednesdayDate ] = useState<DateInfo>();
-  // const [ thursdayDate, setThursdayDate ] = useState<DateInfo>();
-  // const [ fridayDate, setFridayDate ] = useState<DateInfo>();
-  // const [ saturdayDate, setSaturdayDate ] = useState<DateInfo>();
-
-
-  // arrays of all available timeblocks
-  // const [ sundayAllAvail, setSundayAllAvail ] = useState<AllAvailObj[]>();
-  // const [ mondayAllAvail, setMondayAllAvail ] = useState<AllAvailObj[]>();
-  // const [ tuesdayAllAvail, setTuesdayAllAvail ] = useState<AllAvailObj[]>();
-  // const [ wednesdayAllAvail, setWednesdayAllAvail ] = useState<AllAvailObj[]>();
-  // const [ thursdayAllAvail, setThursdayAllAvail ] = useState<AllAvailObj[]>();
-  // const [ fridayAllAvail, setFridayAllAvail ] = useState<AllAvailObj[]>();
-  // const [ saturdayAllAvail, setSaturdayAllAvail ] = useState<AllAvailObj[]>();
   
+  // axios URL
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL_LOCAL
 
 
@@ -105,7 +83,6 @@ const Overlap:React.FC= () => {
         const { emails, users } = meetingResponse.data[0]!;
 
         // save data in state
-        console.log(meetingResponse.data[0])
         setMeetingData(meetingResponse.data[0]); 
 
         // populate userNameArray 
@@ -124,25 +101,25 @@ const Overlap:React.FC= () => {
           setNumOfAttendees(arrayOfNumOfUsers);
         }
 
-        setIsLoadingOverlapData(false);
-        console.log(overlapResponse.data)
-        const overlapResults = await checkOverlapArrays(overlapResponse.data, userNamesArray);
-        setOverlapData(overlapResults);
-        console.log(overlapResults)
-
-        // get timezoneoffest
-        const timeZoneOffset = new Date().getTimezoneOffset();
-        setTimeZoneOffset(timeZoneOffset);
-
         // get current timeZone
         const eventTimeZone = new Date().toLocaleTimeString(undefined, {timeZoneName: "short"}).split(" ")[2];
         setCurrentTimeZone(eventTimeZone);
+
+        // calculate overlap from overlapResponse data
+        setIsLoadingOverlapData(false);
+
+        console.log(overlapResponse.data)
+        const overlapResults = await checkOverlapArrays(overlapResponse.data, userNamesArray);
+        if(overlapResults !== undefined){
+          setOverlapData(overlapResults);
+        }
+
       }
     }
     catch(error:unknown){
       if(error instanceof Error){
         navigate("/error404");
-        console.log("error message: ", error.message)
+        console.error("error message: ", error.message)
       }
     }
   }
@@ -154,103 +131,127 @@ const Overlap:React.FC= () => {
     return () => { abortController.abort(); }
   }, [])
 
-  // useEffect(() => {
-  //   let abortController = new AbortController();
-  //   if(overlapData !== undefined && meetingData !== undefined && userNames && numOfAttendees && userNames.length === numOfAttendees.length){
-  //     const overlapResults = checkOverlapArrays(overlapData);
-  //     console.log("its called! overlapdata useeffect")
-  //   }
-  //   return () => { abortController.abort(); }
-  // }, [overlapData])
 
+  // function to get the day, month and year from a timeblock
+  const getDates = (timeblock:string) => {
+    const convertedTime = new Date(timeblock.replace(/-/g, '\/'));
 
-  
+    // get date
+    const day = convertedTime.getDate();
+    const year = convertedTime.getFullYear();
+    const month = convertedTime.toLocaleString('default', {month: "long"});
+    const dayOfWeek = convertedTime.getDay();
+    let dayOfWeekString = "";
+    switch(dayOfWeek){
+      case 0:
+        dayOfWeekString = "Sunday";
+        break;
+      case 1:
+        dayOfWeekString = "Monday";
+        break;
+      case 2:
+        dayOfWeekString = "Tuesday";
+        break;
+      case 3:
+        dayOfWeekString = "Wednesday";
+        break;
+      case 4:
+        dayOfWeekString = "Thursday";
+        break;
+      case 5:
+        dayOfWeekString = "Friday";
+        break;
+      case 6:
+        dayOfWeekString = "Saturday";
+        break;
+    }
+
+    return {day, month, year, dayOfWeekString}
+  } // end of getDates function
+
   // function to find the overlapping time by date from the array of availabilites
   const checkOverlapArrays = async (arrayOfDateObjects:AvailabilityByDate[], userNamesArray:(string | undefined)[]) => {
-    // function to get the day, month and year
-    const getDates = (timeblock:string) => {
-      console.log(timeblock)
-      const convertedTime = new Date(timeblock.replace(/-/g, '\/'));
-  
-      console.log(convertedTime)
-      // get date
-      const day = convertedTime.getDate();
-      const year = convertedTime.getFullYear();
-      const month = convertedTime.toLocaleString('default', {month: "long"});
-      const dayOfWeek = convertedTime.getDay();
-      let dayOfWeekString = "";
-      switch(dayOfWeek){
-        case 0:
-          dayOfWeekString = "Sunday";
-          break;
-        case 1:
-          dayOfWeekString = "Monday";
-          break;
-        case 2:
-          dayOfWeekString = "Tuesday";
-          break;
-        case 3:
-          dayOfWeekString = "Wednesday";
-          break;
-        case 4:
-          dayOfWeekString = "Thursday";
-          break;
-        case 5:
-          dayOfWeekString = "Friday";
-          break;
-        case 6:
-          dayOfWeekString = "Saturday";
-          break;
-      }
-      console.log({day, month, year, dayOfWeekString})
-  
-      return {day, month, year, dayOfWeekString}
-    }
-
-    //function to filter out timeslots that have a length > 0
-    const checkDayObject = (dayArray:DayObjects[]) => {
-      const timeslotsWithAvail:any = dayArray.filter(timeslot => {return timeslot.array.length > 0})
     
-      return timeslotsWithAvail;
-    }
-
-    // function to get current timeString and convert it to local time of browser
-    const convertTimeString = (timeString:string) => {
-      const currentTimeString = new DayPilot.Date(timeString);
-      const convertedTimeString = currentTimeString.addMinutes(-timeZoneOffset!);
-      return convertedTimeString;
-    }
-
     // map through the array of date availability objects and return an array of objects with dates and blocks when all users are available
     const overlapInfoResults = arrayOfDateObjects.map(dateObj => {
       // get date and save it as object with day, month, year
-      console.log(dateObj.date)
       const date = getDates(dateObj.date);
 
-      console.log(dateObj.availabilityByDateArray)
-      // filter results in availability array to return only slots that are not empty and save them
-      const filteredAvailResults = checkDayObject(dateObj.availabilityByDateArray);
-      console.log(filteredAvailResults)
-      // convert the timeString of each object in the filtered results and save it
-      const convertedAvailResults = filteredAvailResults.map((availResult:DayObjects) => {
-        const convertedTimeString = convertTimeString(availResult.timeString!);
-        availResult.convertedTimeString = convertedTimeString;
-        return availResult;
-      });
-      console.log(convertedAvailResults)
-      // get availability blocks when all attendees are available and save
-      const allAvailableBlocks = getAvailableBlocks(convertedAvailResults, userNamesArray);
+      // get availability blocks when only ALL attendees are available and save
+      const allAvailableBlocks = getAvailableBlocks(dateObj.availabilityByDateArray, userNamesArray);
 
-      console.log(allAvailableBlocks)
-      return {date, allAvailableBlocks}
+      // convet availBLocks to local browser
+
+      return {allAvailableBlocks:allAvailableBlocks}
+      // return {date:date, allAvailableBlocks:allAvailableBlocks}
+    }) 
+    console.log(overlapInfoResults)
+
+    // iterate through overlapResults 
+    const sortedOverlapResults = overlapInfoResults.map(resultBlock => {
+      let newArrayByDate = [];
+      // get date from start date of each object
+      const date = resultBlock.allAvailableBlocks![0].start;
+      // check if there is an array for the date
+      // if no, create one then push results
+      // if yes, push results into an array for that date
+
     })
 
-   return overlapInfoResults;
+
+    // check overlapResults to make sure start date of each block matches the date of the object
+    // const resultsCheckForDuplicateDates = overlapInfoResults.map((overlapResult) => {
+    //   const day = overlapResult.date.day;
+    //   console.log(day)
+    //   // check for empty blocks
+    //   if(overlapResult.allAvailableBlocks!.length !== 0){
+    //     const filteredOverlapResults = overlapResult.allAvailableBlocks!.map(block => {
+  
+    //       let startDate = block.start.getDate();
+    //       console.log(startDate)
+    //       if(startDate === day){
+    //         return { day, block };
+    //       }else{
+    //         console.log(`startDate and Day object don't match`)
+    //         return { day:startDate, availBlock:block}
+    //       }
+    //     })
+        
+    //     console.log(filteredOverlapResults)
+    //   }
+    //   if(overlapInfoResults !== undefined){
+    //     return overlapInfoResults;
+    //   }
+    // }) 
+    // go through resultsCheckForDuplicateDates and merge any arrays with same day key
+
+    // console.log(resultsCheckForDuplicateDates)
+    return overlapInfoResults
   } // end of checkOverlapArrays
 
+  // function to add minutes to a date
+  const addMinutes = (numOfMinutes:number, date = new Date()) => {
+    date.setMinutes(date.getMinutes() + numOfMinutes);
 
-  // function to convert timeblock to start and end times with am/pm, and length of timeblock
-  const convertAvailTimeString = (timeblock:AllAvailObj) => {
+    return date;
+  }
+
+  // function to get current timeString and convert it to local time of browser
+  const convertTimeString = (timeString:string) => {
+    const currentTime = new Date(timeString);
+
+    // get timezoneoffest from local browser
+    const timezoneOffset = new Date().getTimezoneOffset();
+    const convertedTime = addMinutes(-timezoneOffset, currentTime);
+
+    return convertedTime;
+  } // end of function
+
+
+
+
+  // function to deconstruct timeblock to start and end times with am/pm, and length of timeblock
+  const deconstructAvailTimeString = (timeblock:AllAvailObj) => {
     let startAmPm = "am";
     let endAmPm = "am";
     // get start and end time
@@ -281,7 +282,7 @@ const Overlap:React.FC= () => {
       endHour = endHour - 12;
       endAmPm = "pm";
     }
-    
+
     // get start and end minutes
     let startMinString = "00";
     const startMinutes = timeblock.start.getMinutes();
@@ -295,9 +296,11 @@ const Overlap:React.FC= () => {
     }
 
     // get length of timeblock
-    const endTimeOfBlock = timeblock.end.getTimePart();
-    const startTimeOfBlock = timeblock.start.getTimePart();
+    const endTimeOfBlock = timeblock.end.getTime();
+    const startTimeOfBlock = timeblock.start.getTime();
+
     const diffTime = endTimeOfBlock - startTimeOfBlock;
+
     let seconds = Math.floor(diffTime / 1000);
     let minutes = Math.floor(seconds / 60);
     let hours = Math.floor(minutes / 60);
@@ -323,46 +326,57 @@ const Overlap:React.FC= () => {
 
   // function to return all timeblocks when all attendees are available
   const getAvailableBlocks = (resultsArray:DayObjects[], userNamesArray:(string | undefined)[]) => {
-    let startTime:DayPilot.Date;
-    let endTime:DayPilot.Date;
+    let startTime:Date | undefined = undefined;
+    let endTime:Date | undefined = undefined;
     let allAvailBlocks:AllAvailObj[] = [];
     // go through array looking for array length === numOfAttendees
     if(userNamesArray){
-      resultsArray.forEach(timeblock => {
-  
+      for(let timeblock of resultsArray){
         if(timeblock.array.length === userNamesArray!.length){
+          // convert the timestring to local timezone
+          const convertedTimeString = convertTimeString(timeblock.timeString!);
+
           if(!startTime && !endTime){
            // set start time as time of first timeString
-            startTime = new DayPilot.Date(timeblock.convertedTimeString);
+            startTime = new Date(convertedTimeString);
             // set end time as start time plus 30 minutes
-            endTime = new DayPilot.Date(timeblock.convertedTimeString);
-            endTime = endTime.addMinutes(30);
-        
-          }else if(timeblock.convertedTimeString === endTime){
+            endTime = new Date(convertedTimeString);
+            endTime = addMinutes(30, endTime);
+
+          }else if(convertedTimeString.toDateString() === endTime?.toDateString()){
             // check if convertedTimeString same as end time
             // if true, change endtime to results starttime plus 30 minutes
-            endTime = new DayPilot.Date(timeblock.convertedTimeString);
-            endTime = endTime.addMinutes(30);
+            endTime = new Date(convertedTimeString)
+            endTime = addMinutes(30, endTime);
+            break
 
           }else{
-            // start and end time are defined but start time of current timestring does not equel the end time => it is a new timeblock
+            // start and end time are defined but start time of current timestring does not equal the end time => it is a new timeblock
             // push current values of start and end time
-            allAvailBlocks.push({ start:startTime, end:endTime });
+            allAvailBlocks.push({ start:startTime!, end:endTime! });
             // set start time as time of current timeString
-            startTime = new DayPilot.Date(timeblock.convertedTimeString);
+            startTime = new Date(convertedTimeString);
             // set end time as start time plus 30 minutes
-            endTime = new DayPilot.Date(timeblock.convertedTimeString);
-            endTime = endTime.addMinutes(30);
+            endTime = new Date(convertedTimeString)
+            endTime = addMinutes(30, endTime);
+
           }
     
+
+   
         }else{
-          console.log("array length not equal to userName length")
+          // console.log("array length not equal to userName length")
         }
-      })
-      if(startTime !== undefined && endTime !== undefined){
-        allAvailBlocks.push({ start:startTime, end:endTime })
-    
       }
+      if(startTime !== undefined && endTime !== undefined){
+        allAvailBlocks.push({ start:startTime, end:endTime });
+      }
+      console.log(allAvailBlocks);
+
+      // iterate through allAvailBlocks for blocks with same dates
+      const sortedAvailBlocks = allAvailBlocks.map(availBlock => {
+
+      })
       return allAvailBlocks;
     }else {
       console.log("usernames not defined")
@@ -408,32 +422,30 @@ const Overlap:React.FC= () => {
                   ?<h2 className="notAllAvail">{userNames!.length} of {numOfAttendees!.length} attendees have filled out their availability</h2>
                 //  show all available times
                   : <>
-                    {/* <h2>Time Available for Everyone</h2> */}
                     <ul className="availableTimes">
                       {
                         overlapData !== undefined
 
-                        
                         // map through overlapdata  and display the date info for each dataObject
                        ? overlapData?.map((dataObject, index) => {
                       
                           return(
-                            <>
-                              <li key={index}>
+                              <li key={`DataObj${index}`}>
                                 {
                                   dataObject.allAvailableBlocks!.length > 0
-                                    ? <h3 className="day"><span className="text">{dataObject.date.dayOfWeekString}</span> {dataObject.date.month} {dataObject.date.day}, {dataObject.date.year}</h3>
+                                  ? <h3>THis is the header to fix</h3>
+                                    // ? <h3 key={`header${index}`} className="day"><span className="text">{dataObject.date.dayOfWeekString}</span> {dataObject.date.month} {dataObject.date.day}, {dataObject.date.year}</h3>
                                     : null
                                 }
-                                <ul>
+                                <ul key={`list${index}`}>
                                 
                                   {
                                     // map through the array of availability timeblocks for this date
-                                    dataObject.allAvailableBlocks!.map(timeblock => {
-                                      const timeResults = convertAvailTimeString(timeblock);
+                                    dataObject.allAvailableBlocks!.map((timeblock, index) => {
+                                      const timeResults = deconstructAvailTimeString(timeblock);
                                       const { startHour, startMinString, startAmPm, endHour, endMinString, endAmPm, lengthOfTimeBlock } = timeResults;
                                       return(
-                                        <li key={startHour}>
+                                        <li key={`start${index}`}>
                                           <div className="availDisplay">
                                             <p className="timeP">{startHour}:{startMinString} {startAmPm} - {endHour}:{endMinString} {endAmPm} {currentTimeZone}</p>
                                             <p className="length">Everyone is available for <span className="text">{lengthOfTimeBlock}</span></p>
@@ -446,16 +458,14 @@ const Overlap:React.FC= () => {
                                                   )
                                               })
                                             }
-                                            <li key={"userLength"} className="userLength">{userNames!.length}/{userNames!.length}</li>
+                                            <li key={`userLength${index}`} className="userLength">{userNames!.length}/{userNames!.length}</li>
                                           </ul>
                                         </li>
                                       )
                                     })
                                   }
-
                                 </ul>
                               </li>
-                            </>
                           )
                         })
                         :null
