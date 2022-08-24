@@ -114,10 +114,8 @@ const Overlap:React.FC= () => {
         // calculate overlap from overlapResponse data
         setIsLoadingOverlapData(false);
 
-        console.log(overlapResponse.data)
         const overlapResults = await checkOverlapArrays(overlapResponse.data, userNamesArray);
         if(overlapResults !== undefined){
-          console.log(overlapResults)
           setOverlapData(overlapResults);
         }
 
@@ -149,7 +147,6 @@ const Overlap:React.FC= () => {
 
       mergedObjectsArray.push(...object.availabilityByDateArray);
     }
-    console.log(mergedObjectsArray)
 
     // iterate through mergedObjectsArray and convert all of the timestrings to the local browser timezone
     const convertedMergedObjectsArray = mergedObjectsArray.map(mergedObject => {
@@ -158,11 +155,9 @@ const Overlap:React.FC= () => {
       return mergedObject;
     })
 
-    console.log(convertedMergedObjectsArray)
     // get the timeblocks where only ALL attendees are available
     const blocksWithAllAvail = getAvailableBlocks(convertedMergedObjectsArray, userNamesArray);
 
-    console.log(blocksWithAllAvail);
 
     // deconstruct date information from the dateString of each object
     const blocksWithAllAvailAndDate = blocksWithAllAvail?.map(availObj => {
@@ -202,20 +197,15 @@ const Overlap:React.FC= () => {
           // set end time as start time plus 30 minutes
           endTime = new Date(currentStartTime);
           endTime = addMinutes(30, endTime);
-          console.log(`start and end are not defined, ${startTime}, ${endTime}`)
 
         }else if(currentStartTime.toTimeString() === endTime?.toTimeString()){
-          console.log(`currentStartTime is ${currentStartTime.toTimeString()} and endTime is ${endTime?.toTimeString()}`)
           // check if currentStartTime same as end time
           // if true, change endtime to results starttime plus 30 minutes
           endTime = new Date(currentStartTime)
           endTime = addMinutes(30, endTime);
-          console.log(`start and end match so keeping start the same and adding 30 min to end: ${startTime}, ${endTime}`)
           
-
         }else{
           // start and end time are defined but start time of current timestring does not equal the end time => it is a new timeblock
-          console.log(`starting new timeblock. pushing existing start and end times. ${startTime}, ${endTime}`)
           // push current values of start and end time
           allAvailBlocks.push({ start:startTime!, end:endTime! });
           // set start time as time of current timeString
@@ -223,7 +213,6 @@ const Overlap:React.FC= () => {
           // set end time as start time plus 30 minutes
           endTime = new Date(currentStartTime)
           endTime = addMinutes(30, endTime);
-          console.log(`new start and endtime should be ${startTime}, ${endTime}`)
         }
       }else{
         // console.log("array length not equal to userName length")
@@ -231,7 +220,6 @@ const Overlap:React.FC= () => {
     }
     if(startTime !== undefined && endTime !== undefined){
       allAvailBlocks.push({ start:startTime, end:endTime });
-      console.log(allAvailBlocks);
       return allAvailBlocks
     }
   }else {

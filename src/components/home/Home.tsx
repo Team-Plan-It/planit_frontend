@@ -174,7 +174,7 @@ const Home:React.FC = () => {
       setMeetingNumID(rndNumString);
 
       // capitalize event name
-      const name = data.eventName;
+      const name = data.eventName.trim();
       const words = name.split(" ");
 
       const capitalWords = words.map(word => {
