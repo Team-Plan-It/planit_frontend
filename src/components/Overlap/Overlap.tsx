@@ -404,20 +404,22 @@ const Overlap:React.FC= () => {
                               <li key={`DataObj${index}`}>
 
                                 <h3 key={`header${index}`} className="day"><span className="text">{dataObject.date.dayOfWeekString}</span> {dataObject.date.month} {dataObject.date.day}, {dataObject.date.year}</h3>
-                                <div className="availDisplay">
-                                  <p className="timeP">{dataObject.deconstructedDate.startHour}:{dataObject.deconstructedDate.startMinString} {dataObject.deconstructedDate.startAmPm} - {dataObject.deconstructedDate.endHour}:{dataObject.deconstructedDate.endMinString} {dataObject.deconstructedDate.endAmPm} {currentTimeZone}</p>
-                                  <p className="length">Everyone is available for <span className="text">{dataObject.deconstructedDate.lengthOfTimeBlock}</span></p>
+                                <div className="dayTimes">
+                                  <div className="availDisplay">
+                                    <p className="timeP">{dataObject.deconstructedDate.startHour}:{dataObject.deconstructedDate.startMinString} {dataObject.deconstructedDate.startAmPm} - {dataObject.deconstructedDate.endHour}:{dataObject.deconstructedDate.endMinString} {dataObject.deconstructedDate.endAmPm} {currentTimeZone}</p>
+                                    <p className="length">Everyone is available for <span className="text">{dataObject.deconstructedDate.lengthOfTimeBlock}</span></p>
+                                  </div>
+                                  <ul className="userNames">
+                                    {
+                                      userNames!.map((name, index) => {
+                                          return(
+                                            <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
+                                          )
+                                      })
+                                    }
+                                    <li key={`userLength${index}`} className="userLength">{userNames!.length}/{userNames!.length}</li>
+                                  </ul>
                                 </div>
-                                <ul className="userNames">
-                                  {
-                                    userNames!.map((name, index) => {
-                                        return(
-                                          <li key={`${index}${name}` } className={`user${index + 1}`}>{name!.charAt(0).toUpperCase()}</li>
-                                        )
-                                    })
-                                  }
-                                  <li key={`userLength${index}`} className="userLength">{userNames!.length}/{userNames!.length}</li>
-                                </ul>
                               </li>
                           )
                         })
