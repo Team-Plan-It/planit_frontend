@@ -230,7 +230,7 @@ const Availability = (props: any) => {
       availBlock.end = newEnd;
 
     })
-
+    console.log(data)
     // axios POST
     const postUrl = `/dates/availability/${meetingNumID}`
     axios.post(postUrl, data)
