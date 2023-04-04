@@ -184,12 +184,16 @@ const Home:React.FC = () => {
       data.eventName = capitalName;
      
       // axios POST request that adds the meeting to the database
-      const url = `/dates/add`
+      const url = `/dates/add`;
+      console.log(axios.defaults.baseURL)
+      console.log(url)
        axios.post(url, data)
         .then(res => {
           console.log('Successfully added meeting to database')
         })
-        .catch(error =>  {
+         .catch(error => {
+          console.log(axios.defaults.baseURL)
+      console.log(url)
           if(error instanceof Error){
             navigate("/error404");
             console.log("error message: ", error.message)
